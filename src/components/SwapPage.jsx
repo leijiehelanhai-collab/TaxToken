@@ -4,6 +4,7 @@ import { FaSyncAlt, FaExchangeAlt, FaCog, FaInfoCircle, FaChevronDown } from 're
 import { useWeb3 } from '../contexts/Web3Context';
 import { ethers } from 'ethers';
 import { motion, AnimatePresence } from 'framer-motion';
+import PriceChart from './PriceChart';
 
 export default function SwapPage() {
   const { t } = useTranslation();
@@ -155,22 +156,23 @@ export default function SwapPage() {
         <p className="text-gray-400 text-sm md:text-lg">{t('swap.subtitle')}</p>
       </motion.div>
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:items-start">
         {/* 主交换面板 */}
-        <div className="lg:col-span-2">
-          <motion.div 
-            className="glass-card p-4 md:p-6 swap-card"
+        <div className="lg:col-span-2 flex flex-col">
+          <motion.div
+            className="glass-card p-4 md:p-6 swap-card flex-1 flex flex-col"
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
-            whileHover={{ 
-              scale: 1.02, 
+            whileHover={{
+              scale: 1.01,
               boxShadow: "0 20px 40px rgba(6, 182, 212, 0.15)",
               transition: { duration: 0.2 }
             }}
           >
-            {/* 设置按钮 */}
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex-1 flex flex-col">
+              {/* 设置按钮 */}
+              <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold">{t('swap.title')}</h2>
               <button
                 onClick={() => setShowSettings(!showSettings)}
@@ -345,45 +347,48 @@ export default function SwapPage() {
               </div>
             )}
 
-            {/* 操作按钮 */}
-            {needsApproval ? (
-              <button
-                onClick={handleApprove}
-                disabled={approving || loading}
-                className="btn-primary w-full"
-              >
-                {approving ? t('swap.approving') : t('swap.approve_button', { token: fromToken })}
-              </button>
-            ) : (
-              <button
-                onClick={handleSwap}
-                disabled={swapping || loading || !fromAmount || hasInsufficientBalance() || !toAmount}
-                className="btn-primary w-full"
-              >
-                {swapping ? t('swap.swapping') : t('swap.swap_button')}
-              </button>
-            )}
+              {/* 操作按钮 */}
+              <div className="mt-auto">
+                {needsApproval ? (
+                  <button
+                    onClick={handleApprove}
+                    disabled={approving || loading}
+                    className="btn-primary w-full"
+                  >
+                    {approving ? t('swap.approving') : t('swap.approve_button', { token: fromToken })}
+                  </button>
+                ) : (
+                  <button
+                    onClick={handleSwap}
+                    disabled={swapping || loading || !fromAmount || hasInsufficientBalance() || !toAmount}
+                    className="btn-primary w-full"
+                  >
+                    {swapping ? t('swap.swapping') : t('swap.swap_button')}
+                  </button>
+                )}
+              </div>
+            </div>
           </motion.div>
         </div>
 
         {/* 侧边信息面板 */}
-        <div className="lg:col-span-1 space-y-4 md:space-y-6">
+        <div className="lg:col-span-1 space-y-4 lg:space-y-6">
           {/* 功能特性 */}
           <motion.div 
             className="glass-card p-4 md:p-6"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
-            whileHover={{ 
-              scale: 1.05, 
+            whileHover={{
+              scale: 1.02,
               boxShadow: "0 15px 30px rgba(6, 182, 212, 0.1)",
               transition: { duration: 0.2 }
             }}
           >
-            <h3 className="text-xl font-bold mb-4 text-gradient">
+            <h3 className="text-lg lg:text-xl font-bold mb-4 text-gradient">
               {t('swap.features.instant_title')}
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-3">
               <div className="feature-item">
                 <div className="feature-icon">
                   <FaSyncAlt className="text-cyan-400" />
@@ -420,17 +425,17 @@ export default function SwapPage() {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-            whileHover={{ 
-              scale: 1.05, 
+            whileHover={{
+              scale: 1.02,
               boxShadow: "0 15px 30px rgba(6, 182, 212, 0.1)",
               transition: { duration: 0.2 }
             }}
           >
-            <h3 className="text-xl font-bold mb-4 text-gradient flex items-center gap-2">
+            <h3 className="text-lg lg:text-xl font-bold mb-4 text-gradient flex items-center gap-2">
               <FaInfoCircle />
               {t('swap.info.title')}
             </h3>
-            <ol className="space-y-3 text-sm text-gray-300">
+            <ol className="space-y-2.5 lg:space-y-3 text-sm text-gray-300">
               <li className="flex gap-3">
                 <span className="flex-shrink-0 w-6 h-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600 flex items-center justify-center text-white font-bold text-xs">
                   1
@@ -459,6 +464,16 @@ export default function SwapPage() {
           </motion.div>
         </div>
       </div>
+
+      {/* 价格走势图 */}
+      <motion.div
+        className="mt-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.8 }}
+      >
+        <PriceChart />
+      </motion.div>
     </div>
   );
 }

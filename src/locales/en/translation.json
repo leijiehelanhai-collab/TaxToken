@@ -93,6 +93,11 @@
     "approve_failed": "Approval failed",
     "settings": "Settings",
     "slippage_auto": "Auto",
+    "price_chart": "TAX Price Chart",
+    "area_chart": "Area",
+    "line_chart": "Line",
+    "chart_notice": "Simulated Data",
+    "chart_notice_desc": "This is simulated price data for demonstration purposes only. Actual prices should be referenced from on-chain real-time data.",
     "features": {
       "instant_title": "Instant Swap",
       "instant_desc": "Fast, secure token swaps powered by PancakeSwap",

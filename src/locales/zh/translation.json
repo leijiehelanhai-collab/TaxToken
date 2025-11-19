@@ -93,6 +93,11 @@
     "approve_failed": "授权失败",
     "settings": "设置",
     "slippage_auto": "自动",
+    "price_chart": "TAX 价格走势",
+    "area_chart": "面积图",
+    "line_chart": "折线图",
+    "chart_notice": "模拟数据展示",
+    "chart_notice_desc": "以上为模拟价格数据，仅供界面展示参考。实际价格请以链上实时数据为准。",
     "features": {
       "instant_title": "即时兑换",
       "instant_desc": "由 PancakeSwap 提供支持的快速安全代币兑换",
