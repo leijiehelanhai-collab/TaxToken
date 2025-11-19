@@ -3,6 +3,7 @@ import { FaWallet, FaCopy, FaCheckCircle, FaGlobe, FaChevronDown } from 'react-i
 import { useState, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 import { useTranslation } from 'react-i18next';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function Header() {
   const { userAddress, bnbBalance, tokenBalance, connectWallet, disconnectWallet, chainId } = useWeb3();
@@ -115,20 +116,42 @@ export default function Header() {
   };
 
   return (
-    <header className="relative z-20 mb-8">
+    <motion.header 
+      className="relative z-20 mb-8"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+    >
       <div className="glass-card p-4 md:p-6">
         <div className="flex justify-between items-center">
           {/* Logo - top-left */}
-          <div className="flex items-center">
-            <div className="w-10 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center font-bold text-xl">
+          <motion.div 
+            className="flex items-center"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div 
+              className="w-10 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center font-bold text-xl"
+              whileHover={{ 
+                boxShadow: "0 0 20px rgba(6, 182, 212, 0.5)",
+                rotate: [0, -10, 10, 0]
+              }}
+              transition={{ duration: 0.3 }}
+            >
               TAX
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
 
           {/* Right side: network + language + wallet */}
-          <div className="flex items-center gap-2">
+          <motion.div 
+            className="flex items-center gap-2"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          >
             {/* Network badge - icon only */}
-            <div className="glass-card px-2 h-8 flex items-center gap-1">
+            <div className="glass-card px-1 h-8 flex items-center gap-1">
               <FaGlobe className="text-cyan-400 text-xs" />
               <span className={`w-1.5 h-1.5 rounded-full ${chainDot}`}></span>
             </div>
@@ -138,7 +161,7 @@ export default function Header() {
                 type="button"
                 ref={btnRef}
                 onClick={() => setLangOpen((v) => !v)}
-                className="glass-card h-8 px-2 flex items-center gap-1 text-xs text-white hover:bg-white/5 transition"
+                className="glass-card h-8 px-2 flex items-center gap-1 text-xs text-white hover:bg-white/5 transition whitespace-nowrap"
               >
                 <span>{languages.find((l) => l.code === i18n.language)?.label || i18n.language}</span>
                 <FaChevronDown className={`text-[10px] transition-transform ${langOpen ? 'rotate-180' : ''}`} />
@@ -157,7 +180,7 @@ export default function Header() {
                           changeLang(l.code);
                           setLangOpen(false);
                         }}
-                        className={`w-full text-left px-3 py-2 text-xs rounded-sm ${
+                        className={`w-full text-left px-3 py-2 text-xs rounded-sm whitespace-nowrap ${
                           i18n.language === l.code
                             ? 'bg-cyan-500/20 text-cyan-200'
                             : 'text-white hover:bg-white/5'
@@ -180,14 +203,14 @@ export default function Header() {
                 <FaWallet className="text-cyan-400 text-xs" />
               </button>
             ) : (
-              <button onClick={connectWallet} className="btn-primary h-8 flex items-center gap-1 text-[10px] px-3">
+              <button onClick={connectWallet} className="btn-primary h-8 flex items-center gap-1 text-xs px-4 whitespace-nowrap min-w-fit">
                 <FaWallet className="text-xs" />
                 <span>{t('header.connect')}</span>
               </button>
             )}
-          </div>
+          </motion.div>
         </div>
       </div>
-    </header>
+    </motion.header>
   );
 }

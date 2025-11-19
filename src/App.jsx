@@ -1,7 +1,9 @@
-import { Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { useWeb3 } from './contexts/Web3Context';
 import { FaCheckCircle, FaExclamationCircle } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { AnimatePresence, motion } from 'framer-motion';
+import { createPortal } from 'react-dom';
 
 // 组件导入
 import Header from './components/Header';
@@ -19,33 +21,60 @@ const GlobalToast = () => {
   const { toast } = useWeb3();
   const { t } = useTranslation();
 
-  if (!toast.show) {
-    return null;
-  }
-
   const isError = toast.type === 'error';
 
-  return (
-    <div
-      className={`fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100]
-                 bg-slate-800/90 backdrop-blur-md rounded-lg shadow-xl
-                 max-w-sm w-11/12 p-6
-                 ${isError
-                   ? 'border border-red-500/50 shadow-red-500/10'
-                   : 'border border-cyan-500/50 shadow-cyan-500/10'
-                 }`}
-    >
-      <div className="flex flex-col items-center justify-center gap-4">
-        {isError ? (
-          <FaExclamationCircle className="text-red-400 text-5xl" />
-        ) : (
-          <FaCheckCircle className="text-cyan-400 text-5xl" />
+  return createPortal(
+    (
+      <AnimatePresence>
+        {toast.show && (
+          <div
+            style={{
+              position: 'fixed',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              zIndex: 100,
+              pointerEvents: 'none'
+            }}
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.8 }}
+              transition={{ duration: 0.25, ease: 'easeOut' }}
+              style={{
+                backgroundColor: 'rgba(30, 41, 59, 0.9)',
+                backdropFilter: 'blur(12px)',
+                borderRadius: '0.5rem',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                maxWidth: '24rem',
+                width: 'clamp(220px, 90vw, 24rem)',
+                padding: '1.25rem 1.5rem',
+                border: isError ? '1px solid rgba(239, 68, 68, 0.5)' : '1px solid rgba(6, 182, 212, 0.5)',
+                pointerEvents: 'auto'
+              }}
+            >
+              <div className="flex flex-col items-center justify-center gap-4">
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ duration: 0.2 }}>
+                  {isError ? (
+                    <FaExclamationCircle className="text-red-400 text-5xl" />
+                  ) : (
+                    <FaCheckCircle className="text-cyan-400 text-5xl" />
+                  )}
+                </motion.div>
+                <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.2 }} className="text-white text-lg text-center">
+                  {toast.message}
+                </motion.p>
+              </div>
+            </motion.div>
+          </div>
         )}
-        <p className="text-white text-lg text-center">{toast.message}</p>
-      </div>
-    </div>
+      </AnimatePresence>
+    ),
+    document.body
   );
-};
+}
+;
 
 // 网络错误提示
 const NetworkPrompt = () => {
@@ -81,6 +110,84 @@ const NetworkPrompt = () => {
   );
 };
 
+// 动画路由包装组件
+const AnimatedRoutes = () => {
+  const location = useLocation();
+  
+  const pageVariants = {
+    initial: { opacity: 0, x: 20, scale: 0.98 },
+    animate: { opacity: 1, x: 0, scale: 1 },
+    exit: { opacity: 0, x: -20, scale: 0.98 }
+  };
+
+  const pageTransition = {
+    duration: 0.4,
+    ease: "easeInOut"
+  };
+
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+          >
+            <HomePage />
+          </motion.div>
+        } />
+        <Route path="/presale" element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+          >
+            <PresalePage />
+          </motion.div>
+        } />
+        <Route path="/swap" element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+          >
+            <SwapPage />
+          </motion.div>
+        } />
+        <Route path="/rewards" element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+          >
+            <RewardsPage />
+          </motion.div>
+        } />
+        <Route path="/admin" element={
+          <motion.div
+            variants={pageVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            transition={pageTransition}
+          >
+            <AdminPage />
+          </motion.div>
+        } />
+      </Routes>
+    </AnimatePresence>
+  );
+};
+
 function App() {
   return (
     <div className="min-h-screen text-white p-4 md:p-8 relative pb-24 md:pb-8">
@@ -100,13 +207,7 @@ function App() {
 
         {/* 主内容区 */}
         <main className="mt-8 md:mt-0 relative z-10">
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/presale" element={<PresalePage />} />
-            <Route path="/swap" element={<SwapPage />} />
-            <Route path="/rewards" element={<RewardsPage />} />
-            <Route path="/admin" element={<AdminPage />} />
-          </Routes>
+          <AnimatedRoutes />
         </main>
       </div>
 

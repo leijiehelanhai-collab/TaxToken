@@ -1,6 +1,7 @@
 import { useWeb3 } from '../contexts/Web3Context';
 import { FaChartLine, FaFire, FaCoins, FaUsers, FaCheckCircle, FaTimesCircle, FaGift } from 'react-icons/fa';
 import { useTranslation } from 'react-i18next';
+import { motion } from 'framer-motion';
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -59,7 +60,12 @@ export default function HomePage() {
   return (
     <div className="space-y-8">
       {/* 欢迎横幅 */}
-      <div className="glass-card p-8 text-center">
+      <motion.div 
+        className="glass-card p-8 text-center"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
         <h2 className="text-3xl md:text-4xl font-bold text-gradient mb-4">
           {t('home.welcome_title')}
         </h2>
@@ -82,33 +88,52 @@ export default function HomePage() {
             <span>{t('home.presale_status')} {presaleActive ? t('home.presale_on') : t('home.presale_off')}</span>
           </div>
         </div>
-      </div>
+      </motion.div>
 
       {/* 统计卡片 */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {stats.map((stat, index) => (
-          <div key={index} className="stat-card">
+          <motion.div 
+            key={index} 
+            className="stat-card"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+            whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+          >
             <div className={`w-12 h-12 mx-auto mb-4 bg-gradient-to-br ${getColorClass(stat.color)} rounded-full flex items-center justify-center`}>
               <stat.icon className="text-white text-xl" />
             </div>
             <h3 className="text-gray-400 text-sm mb-2">{stat.label}</h3>
             <p className="text-2xl font-bold text-white mb-1">{stat.value}</p>
             <p className="text-xs text-gray-500">{stat.detail}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
 
       {/* 功能介绍 */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="glass-card p-6">
+        <motion.div 
+          className="glass-card p-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.6 }}
+          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+        >
           <div className="w-10 h-10 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-lg flex items-center justify-center mb-4">
             <FaCoins className="text-white text-xl" />
           </div>
           <h3 className="text-lg font-bold text-white mb-2">{t('home.features.presale_title')}</h3>
           <p className="text-gray-400 text-sm">{t('home.features.presale_desc')}</p>
-        </div>
+        </motion.div>
 
-        <div className="glass-card p-6">
+        <motion.div 
+          className="glass-card p-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.7 }}
+          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+        >
           <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-600 rounded-lg flex items-center justify-center mb-4">
             <FaFire className="text-white text-xl" />
           </div>
@@ -116,15 +141,21 @@ export default function HomePage() {
           <p className="text-gray-400 text-sm">
             {t('home.features.tax_desc')}
           </p>
-        </div>
+        </motion.div>
 
-        <div className="glass-card p-6">
+        <motion.div 
+          className="glass-card p-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.8 }}
+          whileHover={{ scale: 1.05, transition: { duration: 0.2 } }}
+        >
           <div className="w-10 h-10 bg-gradient-to-br from-green-500 to-emerald-600 rounded-lg flex items-center justify-center mb-4">
             <FaGift className="text-white text-xl" />
           </div>
           <h3 className="text-lg font-bold text-white mb-2">{t('home.features.lp_title')}</h3>
           <p className="text-gray-400 text-sm">{t('home.features.lp_desc')}</p>
-        </div>
+        </motion.div>
       </div>
 
       {/* 快速操作 */}

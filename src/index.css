@@ -32,9 +32,19 @@
 
 /* 主按钮样式 */
 .btn-primary {
-  @apply px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg
-         hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 btn-shine
-         disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed;
+  @apply bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold;
+  @apply hover:from-cyan-400 hover:to-blue-500 transition-all duration-300;
+  @apply transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25;
+  @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  @apply disabled:hover:from-cyan-500 disabled:hover:to-blue-600 disabled:hover:shadow-none;
+}
+
+/* 次要按钮样式 */
+.btn-secondary {
+  @apply bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold;
+  @apply hover:bg-slate-600 transition-all duration-300;
+  @apply transform hover:scale-105 hover:shadow-lg;
+  @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
 }
 
 /* 次要按钮样式 */

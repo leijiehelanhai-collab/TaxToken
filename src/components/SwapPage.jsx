@@ -3,6 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { FaSyncAlt, FaExchangeAlt, FaCog, FaInfoCircle, FaChevronDown } from 'react-icons/fa';
 import { useWeb3 } from '../contexts/Web3Context';
 import { ethers } from 'ethers';
+import { motion, AnimatePresence } from 'framer-motion';
 
 export default function SwapPage() {
   const { t } = useTranslation();
@@ -142,17 +143,32 @@ export default function SwapPage() {
   return (
     <div className="max-w-7xl mx-auto">
       {/* 标题区域 */}
-      <div className="text-center mb-6 md:mb-8">
+      <motion.div 
+        className="text-center mb-6 md:mb-8"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
+      >
         <h1 className="text-3xl md:text-5xl font-bold mb-3 md:mb-4 text-gradient">
           {t('swap.title')}
         </h1>
         <p className="text-gray-400 text-sm md:text-lg">{t('swap.subtitle')}</p>
-      </div>
+      </motion.div>
 
-      <div className="grid lg:grid-cols-3 gap-4 md:gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {/* 主交换面板 */}
         <div className="lg:col-span-2">
-          <div className="glass-card p-4 md:p-6 swap-card">
+          <motion.div 
+            className="glass-card p-4 md:p-6 swap-card"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+            whileHover={{ 
+              scale: 1.02, 
+              boxShadow: "0 20px 40px rgba(6, 182, 212, 0.15)",
+              transition: { duration: 0.2 }
+            }}
+          >
             {/* 设置按钮 */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold">{t('swap.title')}</h2>
@@ -222,15 +238,23 @@ export default function SwapPage() {
                     {t('swap.max')}
                   </button>
                   <div className="token-select">
-                    <img
-                      src={fromToken === 'BNB' ? '/bnb-icon.png' : '/tax-icon.png'}
-                      alt={fromToken}
-                      className="w-6 h-6 rounded-full"
-                      onError={(e) => {
-                        e.target.style.display = 'none';
-                      }}
-                    />
-                    <span className="font-bold text-lg">{fromToken}</span>
+                    {fromToken === 'BNB' ? (
+                      <div className="w-6 h-6 rounded-full bg-slate-900 flex items-center justify-center shadow-sm">
+                        <svg
+                          className="w-4 h-4"
+                          viewBox="0 0 256 256"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="#F3BA2F"
+                          aria-hidden="true"
+                          focusable="false"
+                        >
+                          <path d="M127.9 24L86.3 65.6l21.6 21.6 20-20 20 20 21.6-21.6L127.9 24zM65.6 86.3L24 127.9l21.6 21.6 41.6-41.6-21.6-21.6zm124.6 0l-21.6 21.6 41.6 41.6 21.6-21.6-41.6-41.6zM127.9 108.7l-19.2 19.2 19.2 19.2 19.2-19.2-19.2-19.2zM86.3 170.3l-21.6 21.6 41.6 41.6 21.6-21.6-41.6-41.6zm82.9 0l-41.6 41.6 21.6 21.6 41.6-41.6-21.6-21.6z"/>
+                        </svg>
+                      </div>
+                    ) : (
+                      <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-white text-[10px] font-black tracking-tight flex items-center justify-center leading-none shadow-sm ring-1 ring-cyan-400/30">TAX</div>
+                    )}
+                    <span className="font-bold text-base">{fromToken}</span>
                     <FaChevronDown className="text-gray-400 text-sm" />
                   </div>
                 </div>
@@ -269,15 +293,23 @@ export default function SwapPage() {
                   className="swap-input"
                 />
                 <div className="token-select">
-                  <img
-                    src={toToken === 'BNB' ? '/bnb-icon.png' : '/tax-icon.png'}
-                    alt={toToken}
-                    className="w-6 h-6 rounded-full"
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
-                  <span className="font-bold text-lg">{toToken}</span>
+                  {toToken === 'BNB' ? (
+                    <div className="w-6 h-6 rounded-full bg-slate-900 flex items-center justify-center shadow-sm">
+                      <svg
+                        className="w-4 h-4"
+                        viewBox="0 0 256 256"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="#F3BA2F"
+                        aria-hidden="true"
+                        focusable="false"
+                      >
+                        <path d="M127.9 24L86.3 65.6l21.6 21.6 20-20 20 20 21.6-21.6L127.9 24zM65.6 86.3L24 127.9l21.6 21.6 41.6-41.6-21.6-21.6zm124.6 0l-21.6 21.6 41.6 41.6 21.6-21.6-41.6-41.6zM127.9 108.7l-19.2 19.2 19.2 19.2 19.2-19.2-19.2-19.2zM86.3 170.3l-21.6 21.6 41.6 41.6 21.6-21.6-41.6-41.6zm82.9 0l-41.6 41.6 21.6 21.6 41.6-41.6-21.6-21.6z"/>
+                      </svg>
+                    </div>
+                  ) : (
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-cyan-400 to-blue-600 text-white text-[10px] font-black tracking-tight flex items-center justify-center leading-none shadow-sm ring-1 ring-cyan-400/30">TAX</div>
+                  )}
+                  <span className="font-bold text-base">{toToken}</span>
                   <FaChevronDown className="text-gray-400 text-sm" />
                 </div>
               </div>
@@ -331,13 +363,23 @@ export default function SwapPage() {
                 {swapping ? t('swap.swapping') : t('swap.swap_button')}
               </button>
             )}
-          </div>
+          </motion.div>
         </div>
 
         {/* 侧边信息面板 */}
         <div className="lg:col-span-1 space-y-4 md:space-y-6">
           {/* 功能特性 */}
-          <div className="glass-card p-4 md:p-6">
+          <motion.div 
+            className="glass-card p-4 md:p-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.4, ease: "easeOut" }}
+            whileHover={{ 
+              scale: 1.05, 
+              boxShadow: "0 15px 30px rgba(6, 182, 212, 0.1)",
+              transition: { duration: 0.2 }
+            }}
+          >
             <h3 className="text-xl font-bold mb-4 text-gradient">
               {t('swap.features.instant_title')}
             </h3>
@@ -370,10 +412,20 @@ export default function SwapPage() {
                 </div>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* 使用说明 */}
-          <div className="glass-card p-4 md:p-6">
+          <motion.div 
+            className="glass-card p-4 md:p-6"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
+            whileHover={{ 
+              scale: 1.05, 
+              boxShadow: "0 15px 30px rgba(6, 182, 212, 0.1)",
+              transition: { duration: 0.2 }
+            }}
+          >
             <h3 className="text-xl font-bold mb-4 text-gradient flex items-center gap-2">
               <FaInfoCircle />
               {t('swap.info.title')}
@@ -404,7 +456,7 @@ export default function SwapPage() {
                 <span>{t('swap.info.step4')}</span>
               </li>
             </ol>
-          </div>
+          </motion.div>
         </div>
       </div>
     </div>
