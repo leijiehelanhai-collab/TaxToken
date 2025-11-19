@@ -27,7 +27,7 @@
 
 /* 玻璃拟态卡片 */
 .glass-card {
-  @apply bg-slate-800/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-xl shadow-cyan-500/10;
+  @apply w-full box-border bg-slate-800/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-xl shadow-cyan-500/10;
 }
 
 /* 主按钮样式 */

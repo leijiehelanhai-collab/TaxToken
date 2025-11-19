@@ -142,17 +142,17 @@ export default function SwapPage() {
   return (
     <div className="max-w-7xl mx-auto">
       {/* 标题区域 */}
-      <div className="text-center mb-8">
-        <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient">
+      <div className="text-center mb-6 md:mb-8">
+        <h1 className="text-3xl md:text-5xl font-bold mb-3 md:mb-4 text-gradient">
           {t('swap.title')}
         </h1>
-        <p className="text-gray-400 text-lg">{t('swap.subtitle')}</p>
+        <p className="text-gray-400 text-sm md:text-lg">{t('swap.subtitle')}</p>
       </div>
 
-      <div className="grid lg:grid-cols-3 gap-6">
+      <div className="grid lg:grid-cols-3 gap-4 md:gap-6">
         {/* 主交换面板 */}
         <div className="lg:col-span-2">
-          <div className="glass-card p-6 swap-card">
+          <div className="glass-card p-4 md:p-6 swap-card">
             {/* 设置按钮 */}
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-xl font-semibold">{t('swap.title')}</h2>
@@ -243,7 +243,7 @@ export default function SwapPage() {
             </div>
 
             {/* 交换按钮 */}
-            <div className="flex justify-center my-4">
+            <div className="flex justify-center my-3 md:my-4">
               <button
                 onClick={handleSwapDirection}
                 className="swap-direction-btn"
@@ -335,9 +335,9 @@ export default function SwapPage() {
         </div>
 
         {/* 侧边信息面板 */}
-        <div className="lg:col-span-1 space-y-6">
+        <div className="lg:col-span-1 space-y-4 md:space-y-6">
           {/* 功能特性 */}
-          <div className="glass-card p-6">
+          <div className="glass-card p-4 md:p-6">
             <h3 className="text-xl font-bold mb-4 text-gradient">
               {t('swap.features.instant_title')}
             </h3>
@@ -373,7 +373,7 @@ export default function SwapPage() {
           </div>
 
           {/* 使用说明 */}
-          <div className="glass-card p-6">
+          <div className="glass-card p-4 md:p-6">
             <h3 className="text-xl font-bold mb-4 text-gradient flex items-center gap-2">
               <FaInfoCircle />
               {t('swap.info.title')}

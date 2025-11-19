@@ -10,17 +10,50 @@ export default function Header() {
   const [langOpen, setLangOpen] = useState(false);
   const btnRef = useRef(null);
   const menuRef = useRef(null);
-  const [menuPos, setMenuPos] = useState({ top: 0, left: 0 });
+  const [menuPos, setMenuPos] = useState({ top: 0, left: 0, width: 128 });
   const { t, i18n } = useTranslation();
 
   useEffect(() => {
     if (!langOpen) return;
-    const el = btnRef.current;
-    if (el) {
+    const recompute = () => {
+      const el = btnRef.current;
+      if (!el) return;
       const rect = el.getBoundingClientRect();
-      const menuWidth = 128; // w-32
-      setMenuPos({ top: rect.bottom + 6, left: rect.right - menuWidth });
-    }
+      const margin = 8;
+      const vw = window.innerWidth || document.documentElement.clientWidth;
+      const vh = window.innerHeight || document.documentElement.clientHeight;
+      const maxWidth = Math.min(200, vw - margin * 2);
+      const minWidth = Math.min(110, maxWidth);
+      const menuWidth = Math.max(minWidth, Math.min(160, maxWidth));
+
+      const minLeft = margin;
+      const maxLeft = vw - menuWidth - margin;
+      const leftAlign = Math.min(Math.max(rect.left, minLeft), Math.max(minLeft, maxLeft)); // align menu's left to button's left
+      const rightAlign = Math.min(Math.max(rect.right - menuWidth, minLeft), Math.max(minLeft, maxLeft)); // align menu's right to button's right
+
+      // Heuristic: if button is on the left half, use left align; otherwise right align
+      const buttonCenter = rect.left + rect.width / 2;
+      let chosenLeft = buttonCenter < vw / 2 ? leftAlign : rightAlign;
+      // Extra guards: if button is very close to edges, snap to margins
+      if (rect.left <= margin + 16) chosenLeft = minLeft;
+      if (rect.right >= vw - (margin + 16)) chosenLeft = maxLeft;
+
+      let top = rect.bottom + 6;
+      // Temporarily set, then flip up if overflow bottom
+      setMenuPos({ top, left: chosenLeft, width: menuWidth });
+
+      requestAnimationFrame(() => {
+        const menuEl = menuRef.current;
+        if (!menuEl) return;
+        const mrect = menuEl.getBoundingClientRect();
+        if (mrect.bottom > vh - margin) {
+          const flipTop = Math.max(margin, rect.top - mrect.height - 6);
+          setMenuPos((pos) => ({ ...pos, top: flipTop }));
+        }
+      });
+    };
+
+    recompute();
 
     const handleClick = (e) => {
       if (
@@ -33,11 +66,17 @@ export default function Header() {
     const handleKey = (e) => {
       if (e.key === 'Escape') setLangOpen(false);
     };
+    const handleResize = () => recompute();
+    const handleScroll = () => recompute();
     window.addEventListener('mousedown', handleClick);
     window.addEventListener('keydown', handleKey);
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => {
       window.removeEventListener('mousedown', handleClick);
       window.removeEventListener('keydown', handleKey);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll);
     };
   }, [langOpen]);
 
@@ -77,7 +116,8 @@ export default function Header() {
 
   return (
     <header className="relative z-20 mb-8">
-      <div className="glass-card p-4 md:p-6">
+      <div className="max-w-7xl mx-auto">
+        <div className="glass-card p-4 md:p-6">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           {/* Logo */}
           <div className="flex items-center gap-3">
@@ -92,13 +132,20 @@ export default function Header() {
           
           {/* 右侧：紧凑型网络与钱包徽章（在框内，不重叠） */}
           <div className="flex items-center gap-2">
+           
+            {/* 网络徽章（小号） */}
+            <div className="glass-card px-1 h-8 flex items-center gap-1">
+              <FaGlobe className="text-cyan-400 text-xs" />
+              <span className="text-[10px] font-semibold text-white whitespace-nowrap">{chainLabel}</span>
+              <span className={`w-1.5 h-1.5 rounded-full ${chainDot}`}></span>
+            </div>
             {/* 语言切换 */}
             <div className="relative z-30">
               <button
                 type="button"
                 ref={btnRef}
                 onClick={() => setLangOpen((v) => !v)}
-                className="glass-card h-10 px-2 flex items-center gap-1 text-xs text-white hover:bg-white/5 transition"
+                className="glass-card h-8 px-2 flex items-center gap-1 text-xs text-white hover:bg-white/5 transition"
               >
                 <span>{languages.find((l) => l.code === i18n.language)?.label || i18n.language}</span>
                 <FaChevronDown className={`text-[10px] transition-transform ${langOpen ? 'rotate-180' : ''}`} />
@@ -107,8 +154,8 @@ export default function Header() {
                 createPortal(
                   <div
                     ref={menuRef}
-                    className="fixed w-32 glass-card py-1 backdrop-blur-md z-[9999] shadow-xl"
-                    style={{ top: menuPos.top, left: menuPos.left }}
+                    className="fixed glass-card py-1 backdrop-blur-md z-[9999] shadow-xl rounded-lg max-h-60 overflow-auto"
+                    style={{ top: menuPos.top, left: menuPos.left, width: menuPos.width }}
                   >
                     {languages.map((l) => (
                       <button
@@ -117,7 +164,7 @@ export default function Header() {
                           changeLang(l.code);
                           setLangOpen(false);
                         }}
-                        className={`w-full text-left px-3 py-1.5 text-xs rounded-sm ${
+                        className={`w-full text-left px-3 py-2 text-xs rounded-sm ${
                           i18n.language === l.code
                             ? 'bg-cyan-500/20 text-cyan-200'
                             : 'text-white hover:bg-white/5'
@@ -130,16 +177,9 @@ export default function Header() {
                   document.body
                 )}
             </div>
-            {/* 网络徽章（小号） */}
-            <div className="glass-card px-1 h-10 flex items-center gap-1">
-              <FaGlobe className="text-cyan-400 text-xs" />
-              <span className="text-[10px] font-semibold text-white whitespace-nowrap">{chainLabel}</span>
-              <span className={`w-1.5 h-1.5 rounded-full ${chainDot}`}></span>
-            </div>
-
             {/* 钱包状态（小号） */}
             {userAddress ? (
-              <div className="glass-card px-1 h-10 flex items-center gap-1">
+              <div className="glass-card px-1 h-8 flex items-center gap-1">
                 <FaWallet className="text-cyan-400 text-xs" />
                 <button onClick={copyAddress} className="text-[10px] font-mono text-white hover:text-cyan-300">
                   {shortenAddress(userAddress)}
@@ -165,6 +205,7 @@ export default function Header() {
 
             
           </div>
+        </div>
         </div>
       </div>
     </header>
