@@ -1,0 +1,184 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 按钮光泽效果 */
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -150%;
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(120deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.25) 50%, rgba(255,255,255,0) 100%);
+  transform: skewX(-20deg);
+}
+.btn-shine:hover::after {
+  animation: shine-sweep 0.8s ease;
+}
+@keyframes shine-sweep {
+  from { left: -150%; }
+  to { left: 150%; }
+}
+
+/* 玻璃拟态卡片 */
+.glass-card {
+  @apply bg-slate-800/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-xl shadow-cyan-500/10;
+}
+
+/* 主按钮样式 */
+.btn-primary {
+  @apply px-6 py-3 bg-gradient-to-r from-cyan-500 to-blue-600 text-white font-semibold rounded-lg
+         hover:from-cyan-400 hover:to-blue-500 transition-all duration-300 btn-shine
+         disabled:from-gray-500 disabled:to-gray-600 disabled:cursor-not-allowed;
+}
+
+/* 次要按钮样式 */
+.btn-secondary {
+  @apply px-6 py-3 bg-slate-700/70 backdrop-blur text-white font-semibold rounded-lg
+         border border-cyan-500/30 hover:bg-slate-600/70 hover:border-cyan-400/50
+         transition-all duration-300;
+}
+
+/* 输入框样式 */
+.input-field {
+  @apply w-full px-4 py-3 bg-slate-900/50 border border-cyan-500/30 rounded-lg
+         text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400/70
+         focus:ring-2 focus:ring-cyan-500/20 transition-all;
+}
+
+/* 统计卡片 */
+.stat-card {
+  @apply glass-card p-6 text-center;
+}
+
+/* 渐变文字 */
+.text-gradient {
+  @apply bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent;
+}
+
+/* 脉冲动画 */
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(6, 182, 212, 0.2);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(6, 182, 212, 0.4);
+  }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* Swap 页面专用样式 */
+.swap-card {
+  @apply relative;
+}
+
+.swap-input-card {
+  @apply bg-slate-900/60 border border-cyan-500/20 rounded-xl p-4
+         flex items-center justify-between gap-4 hover:border-cyan-400/40
+         transition-all duration-300;
+}
+
+.swap-input {
+  @apply flex-1 bg-transparent text-2xl md:text-3xl font-bold text-white
+         outline-none placeholder-gray-500;
+}
+
+.swap-input::-webkit-outer-spin-button,
+.swap-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.swap-input[type=number] {
+  -moz-appearance: textfield;
+}
+
+.token-select {
+  @apply flex items-center gap-2 px-4 py-2 bg-slate-800/80 rounded-lg
+         border border-cyan-500/30 cursor-pointer hover:bg-slate-700/80
+         hover:border-cyan-400/50 transition-all duration-300;
+}
+
+.swap-direction-btn {
+  @apply p-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600
+         text-white hover:from-cyan-400 hover:to-blue-500
+         transition-all duration-300 shadow-lg hover:shadow-cyan-500/50
+         hover:scale-110 active:scale-95;
+}
+
+.feature-item {
+  @apply flex items-start gap-3 p-3 rounded-lg hover:bg-slate-700/20
+         transition-all duration-300;
+}
+
+.feature-icon {
+  @apply flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r
+         from-cyan-500/20 to-blue-600/20 flex items-center justify-center
+         text-xl border border-cyan-500/30;
+}
+
+/* 滑入动画 */
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideDown {
+  animation: slideDown 0.3s ease-out;
+}
+
+/* 交换方向按钮旋转动画 */
+.swap-direction-btn:hover {
+  animation: rotateSwap 0.6s ease-in-out;
+}
+
+@keyframes rotateSwap {
+  0% {
+    transform: rotate(0deg) scale(1.1);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  100% {
+    transform: rotate(360deg) scale(1.1);
+  }
+}
+
+/* 输入框聚焦时的光晕效果 */
+.swap-input-card:focus-within {
+  @apply border-cyan-400/60 shadow-lg shadow-cyan-500/20;
+}
+
+/* 价格影响警告颜色 */
+.price-impact-low {
+  @apply text-green-400;
+}
+
+.price-impact-medium {
+  @apply text-yellow-400;
+}
+
+.price-impact-high {
+  @apply text-red-400;
+}
+
+/* 代币图标加载失败时的占位符 */
+.token-icon-placeholder {
+  @apply w-6 h-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600
+         flex items-center justify-center text-white font-bold text-xs;
+}
+
