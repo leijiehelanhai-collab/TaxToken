@@ -12,7 +12,8 @@
   "common": {
     "chain_id": "Chain ID: {{id}}",
     "processing": "Processing...",
-    "available_balance": "Available"
+    "available_balance": "Available",
+    "updating": "Updating"
   },
   "app": {
     "network_error_title": "Network Error",
@@ -98,6 +99,14 @@
     "line_chart": "Line",
     "chart_notice": "Simulated Data",
     "chart_notice_desc": "This is simulated price data for demonstration purposes only. Actual prices should be referenced from on-chain real-time data.",
+    "trading_not_started": "Trading Not Started",
+    "trading_not_started_desc": "Token trading has not been enabled yet. Price chart is unavailable.",
+    "waiting_for_trading": "Waiting for trading to start",
+    "collecting_price_data": "Collecting Price Data",
+    "collecting_price_data_desc": "Price data is being collected. Chart will be displayed once sufficient data is available.",
+    "current_price": "Current Price",
+    "real_time_data": "Real-time On-chain Data",
+    "real_time_data_desc": "Showing {{count}} price data points for the past {{range}}, updated every 30 seconds.",
     "features": {
       "instant_title": "Instant Swap",
       "instant_desc": "Fast, secure token swaps powered by PancakeSwap",

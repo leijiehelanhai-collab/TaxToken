@@ -12,7 +12,8 @@
   "common": {
     "processing": "处理中...",
     "chain_id": "链 ID: {{id}}",
-    "available_balance": "可用余额"
+    "available_balance": "可用余额",
+    "updating": "更新中"
   },
   "app": {
     "network_error_title": "网络错误",
@@ -98,6 +99,14 @@
     "line_chart": "折线图",
     "chart_notice": "模拟数据展示",
     "chart_notice_desc": "以上为模拟价格数据，仅供界面展示参考。实际价格请以链上实时数据为准。",
+    "trading_not_started": "交易尚未开启",
+    "trading_not_started_desc": "当前代币交易尚未开启，价格图表功能暂不可用。",
+    "waiting_for_trading": "等待交易开启",
+    "collecting_price_data": "正在收集价格数据",
+    "collecting_price_data_desc": "价格数据正在收集中，请稍候。图表将在有足够数据后显示。",
+    "current_price": "当前价格",
+    "real_time_data": "实时链上数据",
+    "real_time_data_desc": "显示最近 {{range}} 的 {{count}} 个价格数据点，每30秒自动更新。",
     "features": {
       "instant_title": "即时兑换",
       "instant_desc": "由 PancakeSwap 提供支持的快速安全代币兑换",
