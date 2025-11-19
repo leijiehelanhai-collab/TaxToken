@@ -83,12 +83,15 @@
 .swap-input-card {
   @apply bg-slate-900/60 border border-cyan-500/20 rounded-xl p-4
          flex items-center justify-between gap-4 hover:border-cyan-400/40
-         transition-all duration-300;
+         transition-all duration-300 flex-wrap md:flex-nowrap;
 }
 
 .swap-input {
-  @apply flex-1 bg-transparent text-2xl md:text-3xl font-bold text-white
+  @apply flex-1 bg-transparent font-bold text-white
          outline-none placeholder-gray-500;
+  /* Allow shrinking inside flex and use responsive font scaling */
+  min-width: 0;
+  font-size: clamp(1.125rem, 6vw, 1.75rem);
 }
 
 .swap-input::-webkit-outer-spin-button,
@@ -102,7 +105,7 @@
 }
 
 .token-select {
-  @apply flex items-center gap-2 px-4 py-2 bg-slate-800/80 rounded-lg
+  @apply flex items-center gap-2 px-4 py-2 bg-slate-800/80 rounded-lg flex-shrink-0
          border border-cyan-500/30 cursor-pointer hover:bg-slate-700/80
          hover:border-cyan-400/50 transition-all duration-300;
 }
