@@ -42,7 +42,7 @@ export const Web3Provider = ({ children }) => {
     setToast({ show: true, message, type });
     setTimeout(() => {
       setToast({ show: false, message: '', type: 'success' });
-    }, 3000);
+    }, 800);
   }, []);
 
   // 检查是否在支持的网络

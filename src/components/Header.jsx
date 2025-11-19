@@ -87,7 +87,7 @@ export default function Header() {
   const copyAddress = () => {
     navigator.clipboard.writeText(userAddress);
     setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setTimeout(() => setCopied(false), 1000);
   };
 
   const chainLabel =
@@ -116,30 +116,23 @@ export default function Header() {
 
   return (
     <header className="relative z-20 mb-8">
-      <div className="max-w-7xl mx-auto">
-        <div className="glass-card p-4 md:p-6">
-        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center font-bold text-lg md:text-xl">
+      <div className="glass-card p-4 md:p-6">
+        <div className="flex justify-between items-center">
+          {/* Logo - top-left */}
+          <div className="flex items-center">
+            <div className="w-10 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center font-bold text-xl">
               TAX
             </div>
-            <div>
-              <h1 className="text-xl md:text-2xl font-bold text-gradient">{t('header.title')}</h1>
-              <p className="text-xs md:text-sm text-gray-400">{t('header.subtitle')}</p>
-            </div>
           </div>
-          
-          {/* 右侧：紧凑型网络与钱包徽章（在框内，不重叠） */}
+
+          {/* Right side: network + language + wallet */}
           <div className="flex items-center gap-2">
-           
-            {/* 网络徽章（小号） */}
-            <div className="glass-card px-1 h-8 flex items-center gap-1">
+            {/* Network badge - icon only */}
+            <div className="glass-card px-2 h-8 flex items-center gap-1">
               <FaGlobe className="text-cyan-400 text-xs" />
-              <span className="text-[10px] font-semibold text-white whitespace-nowrap">{chainLabel}</span>
               <span className={`w-1.5 h-1.5 rounded-full ${chainDot}`}></span>
             </div>
-            {/* 语言切换 */}
+            {/* Language switcher */}
             <div className="relative z-30">
               <button
                 type="button"
@@ -177,35 +170,22 @@ export default function Header() {
                   document.body
                 )}
             </div>
-            {/* 钱包状态（小号） */}
+            {/* Wallet - icon only when connected, connect button when not */}
             {userAddress ? (
-              <div className="glass-card px-1 h-8 flex items-center gap-1">
+              <button
+                onClick={disconnectWallet}
+                className="glass-card h-8 px-2 flex items-center gap-1 text-xs text-white hover:bg-white/5 transition"
+                title={t('header.disconnect')}
+              >
                 <FaWallet className="text-cyan-400 text-xs" />
-                <button onClick={copyAddress} className="text-[10px] font-mono text-white hover:text-cyan-300">
-                  {shortenAddress(userAddress)}
-                </button>
-                {copied ? (
-                  <FaCheckCircle className="text-green-400 text-xs" />
-                ) : (
-                  <FaCopy className="text-gray-400 text-xs" />
-                )}
-                <button
-                  onClick={disconnectWallet}
-                  className="ml-1 px-2 py-0.5 bg-red-500/20 text-red-400 rounded-md hover:bg-red-500/30 transition-all text-[10px]"
-                >
-                  {t('header.disconnect')}
-                </button>
-              </div>
+              </button>
             ) : (
-              <button onClick={connectWallet} className="btn-primary h-10 flex items-center gap-1 text-[10px] px-3">
+              <button onClick={connectWallet} className="btn-primary h-8 flex items-center gap-1 text-[10px] px-3">
                 <FaWallet className="text-xs" />
                 <span>{t('header.connect')}</span>
               </button>
             )}
-
-            
           </div>
-        </div>
         </div>
       </div>
     </header>

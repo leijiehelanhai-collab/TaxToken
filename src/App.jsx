@@ -87,25 +87,28 @@ function App() {
       {/* 粒子背景 */}
       <ParticlesBackground />
 
-      {/* 头部 */}
-      <Header />
+      {/* Shared container for Header and all page content */}
+      <div className="max-w-7xl mx-auto px-3 md:px-4">
+        {/* 头部 */}
+        <Header />
 
-      {/* 桌面导航 */}
-      <DesktopNav />
+        {/* 桌面导航 */}
+        <DesktopNav />
 
-      {/* 网络提示 */}
-      <NetworkPrompt />
+        {/* 网络提示 */}
+        <NetworkPrompt />
 
-      {/* 主内容区 */}
-      <main className="max-w-7xl mx-auto mt-8 md:mt-0 relative z-10">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/presale" element={<PresalePage />} />
-          <Route path="/swap" element={<SwapPage />} />
-          <Route path="/rewards" element={<RewardsPage />} />
-          <Route path="/admin" element={<AdminPage />} />
-        </Routes>
-      </main>
+        {/* 主内容区 */}
+        <main className="mt-8 md:mt-0 relative z-10">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/presale" element={<PresalePage />} />
+            <Route path="/swap" element={<SwapPage />} />
+            <Route path="/rewards" element={<RewardsPage />} />
+            <Route path="/admin" element={<AdminPage />} />
+          </Routes>
+        </main>
+      </div>
 
       {/* 移动端底部导航 */}
       <MobileBottomNav />
