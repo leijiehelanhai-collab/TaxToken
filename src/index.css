@@ -1,6 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  * {
+    @apply antialiased;
+  }
+
+  body {
+    @apply font-sans text-base;
+    font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display;
+    font-feature-settings: 'ss01', 'ss02';
+    letter-spacing: -0.02em;
+  }
+}
 
 /* 按钮光泽效果 */
 .btn-shine {
@@ -27,38 +49,86 @@
 
 /* 玻璃拟态卡片 */
 .glass-card {
-  @apply w-full box-border bg-slate-800/50 backdrop-blur-md border border-cyan-500/30 rounded-lg shadow-xl shadow-cyan-500/10;
+  @apply w-full box-border bg-slate-800/40 backdrop-blur-xl border border-cyan-500/20 rounded-2xl shadow-2xl;
+  background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
+  box-shadow:
+    0 8px 32px 0 rgba(6, 182, 212, 0.08),
+    0 2px 8px 0 rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  @apply border-cyan-500/30;
+  box-shadow:
+    0 12px 48px 0 rgba(6, 182, 212, 0.12),
+    0 4px 12px 0 rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
 }
 
 /* 主按钮样式 */
 .btn-primary {
-  @apply bg-gradient-to-r from-cyan-500 to-blue-600 text-white px-6 py-3 rounded-lg font-semibold;
-  @apply hover:from-cyan-400 hover:to-blue-500 transition-all duration-300;
-  @apply transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-500/25;
+  @apply bg-gradient-to-r from-cyan-500 via-cyan-600 to-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold;
+  @apply hover:from-cyan-400 hover:via-cyan-500 hover:to-blue-500 transition-all duration-300;
+  @apply transform hover:scale-[1.02] hover:shadow-xl hover:shadow-cyan-500/30;
   @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
   @apply disabled:hover:from-cyan-500 disabled:hover:to-blue-600 disabled:hover:shadow-none;
+  position: relative;
+  overflow: hidden;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+  box-shadow:
+    0 4px 14px 0 rgba(6, 182, 212, 0.25),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s;
+}
+
+.btn-primary:hover::before {
+  left: 100%;
 }
 
 /* 次要按钮样式 */
 .btn-secondary {
-  @apply bg-slate-700 text-white px-6 py-3 rounded-lg font-semibold;
-  @apply hover:bg-slate-600 transition-all duration-300;
-  @apply transform hover:scale-105 hover:shadow-lg;
-  @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
-}
-
-/* 次要按钮样式 */
-.btn-secondary {
-  @apply px-6 py-3 bg-slate-700/70 backdrop-blur text-white font-semibold rounded-lg
-         border border-cyan-500/30 hover:bg-slate-600/70 hover:border-cyan-400/50
+  @apply px-6 py-3.5 bg-slate-700/60 backdrop-blur-md text-white font-semibold rounded-xl
+         border border-cyan-500/20 hover:bg-slate-600/70 hover:border-cyan-400/40
          transition-all duration-300;
+  @apply transform hover:scale-[1.02] hover:shadow-lg;
+  @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
+  letter-spacing: 0.01em;
+  font-weight: 600;
+  box-shadow:
+    0 2px 8px 0 rgba(0, 0, 0, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
 }
 
 /* 输入框样式 */
 .input-field {
-  @apply w-full px-4 py-3 bg-slate-900/50 border border-cyan-500/30 rounded-lg
-         text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400/70
-         focus:ring-2 focus:ring-cyan-500/20 transition-all;
+  @apply w-full px-4 py-3.5 bg-slate-900/60 border border-cyan-500/20 rounded-xl
+         text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400/60
+         focus:ring-2 focus:ring-cyan-500/20 transition-all backdrop-blur-sm;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+  box-shadow:
+    inset 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 1px 2px 0 rgba(6, 182, 212, 0.05);
+}
+
+.input-field:focus {
+  box-shadow:
+    inset 0 2px 4px 0 rgba(0, 0, 0, 0.2),
+    0 0 0 3px rgba(6, 182, 212, 0.1),
+    0 2px 8px 0 rgba(6, 182, 212, 0.15);
 }
 
 /* 统计卡片 */
@@ -68,7 +138,16 @@
 
 /* 渐变文字 */
 .text-gradient {
-  @apply bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent;
+  @apply bg-gradient-to-r from-cyan-400 via-cyan-300 to-blue-500 bg-clip-text text-transparent;
+  background-size: 200% auto;
+  animation: gradient-shift 3s ease infinite;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+@keyframes gradient-shift {
+  0%, 100% { background-position: 0% center; }
+  50% { background-position: 100% center; }
 }
 
 /* 脉冲动画 */
@@ -91,9 +170,12 @@
 }
 
 .swap-input-card {
-  @apply bg-slate-900/60 border border-cyan-500/20 rounded-xl p-4
+  @apply bg-slate-900/70 border border-cyan-500/20 rounded-2xl p-5
          flex items-center justify-between gap-4 hover:border-cyan-400/40
-         transition-all duration-300 flex-wrap md:flex-nowrap;
+         transition-all duration-300 flex-wrap md:flex-nowrap backdrop-blur-md;
+  box-shadow:
+    inset 0 2px 4px 0 rgba(0, 0, 0, 0.3),
+    0 2px 8px 0 rgba(6, 182, 212, 0.08);
 }
 
 .swap-input {
@@ -115,27 +197,51 @@
 }
 
 .token-select {
-  @apply flex items-center gap-2 px-4 py-2 bg-slate-800/80 rounded-lg flex-shrink-0
-         border border-cyan-500/30 cursor-pointer hover:bg-slate-700/80
-         hover:border-cyan-400/50 transition-all duration-300;
+  @apply flex items-center gap-2.5 px-4 py-2.5 bg-slate-800/90 rounded-xl flex-shrink-0
+         border border-cyan-500/30 cursor-pointer hover:bg-slate-700/90
+         hover:border-cyan-400/50 transition-all duration-300 backdrop-blur-sm;
+  font-weight: 600;
+  box-shadow:
+    0 2px 8px 0 rgba(0, 0, 0, 0.2),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
+}
+
+.token-select:hover {
+  transform: translateY(-1px);
+  box-shadow:
+    0 4px 12px 0 rgba(6, 182, 212, 0.15),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.08);
 }
 
 .swap-direction-btn {
-  @apply p-3 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600
-         text-white hover:from-cyan-400 hover:to-blue-500
-         transition-all duration-300 shadow-lg hover:shadow-cyan-500/50
+  @apply p-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-cyan-600 to-blue-600
+         text-white hover:from-cyan-400 hover:via-cyan-500 hover:to-blue-500
+         transition-all duration-300 shadow-xl hover:shadow-cyan-500/50
          hover:scale-110 active:scale-95;
+  box-shadow:
+    0 4px 14px 0 rgba(6, 182, 212, 0.3),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
 }
 
 .feature-item {
-  @apply flex items-start gap-3 p-3 rounded-lg hover:bg-slate-700/20
+  @apply flex items-start gap-4 p-4 rounded-xl hover:bg-slate-700/30
          transition-all duration-300;
 }
 
+.feature-item:hover {
+  transform: translateX(4px);
+}
+
 .feature-icon {
-  @apply flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-r
+  @apply flex-shrink-0 w-12 h-12 rounded-2xl bg-gradient-to-br
          from-cyan-500/20 to-blue-600/20 flex items-center justify-center
-         text-xl border border-cyan-500/30;
+         text-xl border border-cyan-500/30 shadow-lg;
+  transition: all 0.3s ease;
+}
+
+.feature-item:hover .feature-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 8px 16px rgba(6, 182, 212, 0.2);
 }
 
 /* 滑入动画 */

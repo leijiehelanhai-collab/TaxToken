@@ -116,56 +116,73 @@ export default function Header() {
   };
 
   return (
-    <motion.header 
+    <motion.header
       className="relative z-20 mb-8"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="glass-card p-4 md:p-6">
+      <div className="glass-card p-5 md:p-7">
         <div className="flex justify-between items-center">
           {/* Logo - top-left */}
-          <motion.div 
-            className="flex items-center"
+          <motion.div
+            className="flex items-center gap-3"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
-            <motion.div 
-              className="w-10 h-12 bg-gradient-to-br from-cyan-400 to-blue-600 rounded-full flex items-center justify-center font-bold text-xl"
-              whileHover={{ 
-                boxShadow: "0 0 20px rgba(6, 182, 212, 0.5)",
-                rotate: [0, -10, 10, 0]
+            <motion.div
+              className="w-11 h-11 bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg shadow-cyan-500/30"
+              whileHover={{
+                boxShadow: "0 0 25px rgba(6, 182, 212, 0.6)",
+                rotate: [0, -5, 5, 0]
               }}
               transition={{ duration: 0.3 }}
+              style={{
+                boxShadow: '0 4px 14px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
+              }}
             >
-              TAX
+              <span className="tracking-tight">TAX</span>
             </motion.div>
+            <motion.span
+              className="hidden sm:block text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+              style={{ letterSpacing: '-0.02em' }}
+            >
+              Tax Token
+            </motion.span>
           </motion.div>
 
           {/* Right side: network + language + wallet */}
-          <motion.div 
-            className="flex items-center gap-2"
+          <motion.div
+            className="flex items-center gap-2.5"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
             {/* Network badge - icon only */}
-            <div className="glass-card px-1 h-8 flex items-center gap-1">
-              <FaGlobe className="text-cyan-400 text-xs" />
-              <span className={`w-1.5 h-1.5 rounded-full ${chainDot}`}></span>
-            </div>
+            <motion.div
+              className="glass-card px-2.5 h-9 flex items-center gap-1.5 hover:border-cyan-400/30 transition-all"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+              <FaGlobe className="text-cyan-400 text-sm" />
+              <span className={`w-2 h-2 rounded-full ${chainDot} shadow-lg`} style={{
+                boxShadow: chainId === 97 ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(251, 191, 36, 0.6)'
+              }}></span>
+            </motion.div>
             {/* Language switcher */}
             <div className="relative z-30">
-              <button
+              <motion.button
                 type="button"
                 ref={btnRef}
                 onClick={() => setLangOpen((v) => !v)}
-                className="glass-card h-8 px-2 flex items-center gap-1 text-xs text-white hover:bg-white/5 transition whitespace-nowrap"
+                className="glass-card h-9 px-3 flex items-center gap-1.5 text-sm text-white hover:bg-white/5 hover:border-cyan-400/30 transition-all whitespace-nowrap font-medium"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
                 <span>{languages.find((l) => l.code === i18n.language)?.label || i18n.language}</span>
-                <FaChevronDown className={`text-[10px] transition-transform ${langOpen ? 'rotate-180' : ''}`} />
-              </button>
+                <FaChevronDown className={`text-xs transition-transform duration-300 ${langOpen ? 'rotate-180' : ''}`} />
+              </motion.button>
               {langOpen &&
                 createPortal(
                   <div
@@ -195,18 +212,26 @@ export default function Header() {
             </div>
             {/* Wallet - icon only when connected, connect button when not */}
             {userAddress ? (
-              <button
+              <motion.button
                 onClick={disconnectWallet}
-                className="glass-card h-8 px-2 flex items-center gap-1 text-xs text-white hover:bg-white/5 transition"
+                className="glass-card h-9 px-3 flex items-center gap-2 text-sm text-white hover:bg-white/5 hover:border-cyan-400/30 transition-all font-medium"
                 title={t('header.disconnect')}
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
               >
-                <FaWallet className="text-cyan-400 text-xs" />
-              </button>
+                <FaWallet className="text-cyan-400 text-sm" />
+                <span className="hidden md:inline">{shortenAddress(userAddress)}</span>
+              </motion.button>
             ) : (
-              <button onClick={connectWallet} className="btn-primary h-8 flex items-center gap-1 text-xs px-4 whitespace-nowrap min-w-fit">
-                <FaWallet className="text-xs" />
+              <motion.button
+                onClick={connectWallet}
+                className="btn-primary h-9 flex items-center gap-2 text-sm px-5 whitespace-nowrap min-w-fit"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+              >
+                <FaWallet className="text-sm" />
                 <span>{t('header.connect')}</span>
-              </button>
+              </motion.button>
             )}
           </motion.div>
         </div>
