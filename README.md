@@ -195,9 +195,9 @@ MIT License
 
 ## 📞 联系方式
 
-- GitHub: [github.com/你的用户名](https://github.com/你的用户名)
-- Twitter: [@你的账号](https://twitter.com/你的账号)
-- Discord: [加入我们](https://discord.gg/你的邀请链接)
+- GitHub: [https://github.com/leijiehelanhai-collab](https://github.com/leijiehelanhai-collab)
+- Twitter: [@hai_lan84606](https://x.com/hai_lan84606?s=21)
+- weixin: 19823413454
 
 ---
 
