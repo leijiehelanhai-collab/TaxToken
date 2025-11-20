@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useEffect, useCallback } from 'rea
 import { ethers } from 'ethers';
 import TaxTokenABI from '../abi/TaxToken.json';
 import PancakeRouterABI from '../abi/PancakeRouter.json';
-import { CONTRACT_ADDRESS, SUPPORTED_CHAINS, REQUIRED_CHAIN_ID, UPDATE_INTERVAL, PANCAKE_ROUTER } from '../constants';
+import { CONTRACT_ADDRESS, SUPPORTED_CHAINS, REQUIRED_CHAIN_ID, UPDATE_INTERVAL, PANCAKE_ROUTER, BSCSCAN_API } from '../constants';
 
 const Web3Context = createContext();
 
@@ -32,6 +32,14 @@ export const Web3Provider = ({ children }) => {
   const [tradingEnabled, setTradingEnabled] = useState(false);
   const [presaleActive, setPresaleActive] = useState(false);
   const [isWhitelisted, setIsWhitelisted] = useState(false);
+
+  // 统计数据
+  const [stats, setStats] = useState({
+    totalSupply: '0',
+    holders: 0,
+    totalVolume: '0',
+    totalRewards: '0'
+  });
 
   // UI 状态
   const [loading, setLoading] = useState(false);
@@ -392,6 +400,130 @@ export const Web3Provider = ({ children }) => {
     }
   }, [userAddress, provider, contract]);
 
+  // 从BSCScan API获取持有者数量
+  const fetchHoldersCount = useCallback(async () => {
+    if (!chainId || !BSCSCAN_API[chainId]) {
+      console.log('持有者统计: 缺少chainId或API配置', { chainId, hasConfig: !!BSCSCAN_API[chainId] });
+      return 0;
+    }
+
+    try {
+      const apiConfig = BSCSCAN_API[chainId];
+      console.log('开始获取持有者数量...', { chainId, contractAddress: CONTRACT_ADDRESS });
+
+      // 方案：通过扫描Transfer事件来统计唯一地址
+      const transferUrl = `${apiConfig.url}?module=account&action=tokentx&contractaddress=${CONTRACT_ADDRESS}&page=1&offset=10000&sort=asc&apikey=${apiConfig.apiKey}`;
+
+      console.log('请求BSCScan API:', transferUrl.replace(apiConfig.apiKey, '***'));
+
+      const transferResponse = await fetch(transferUrl);
+      const transferData = await transferResponse.json();
+
+      console.log('BSCScan API响应:', {
+        status: transferData.status,
+        message: transferData.message,
+        resultCount: transferData.result?.length || 0
+      });
+
+      if (transferData.status === '1' && transferData.result && Array.isArray(transferData.result)) {
+        // 统计唯一的持有者地址（排除零地址和合约地址）
+        const uniqueHolders = new Set();
+        const zeroAddress = '0x0000000000000000000000000000000000000000';
+
+        transferData.result.forEach(tx => {
+          // 添加接收者（to地址）
+          if (tx.to && tx.to.toLowerCase() !== zeroAddress.toLowerCase() &&
+              tx.to.toLowerCase() !== CONTRACT_ADDRESS.toLowerCase()) {
+            uniqueHolders.add(tx.to.toLowerCase());
+          }
+        });
+
+        const holdersCount = uniqueHolders.size;
+        console.log('✅ 持有者统计完成:', {
+          totalTransfers: transferData.result.length,
+          uniqueHolders: holdersCount
+        });
+
+        return holdersCount;
+      } else {
+        console.warn('BSCScan API返回异常:', transferData);
+        return 0;
+      }
+    } catch (error) {
+      console.error('❌ 获取持有者数量失败:', error);
+      return 0;
+    }
+  }, [chainId]);
+
+  // 获取统计数据
+  const fetchStats = useCallback(async () => {
+    if (!contract || !provider) {
+      console.log('fetchStats: 等待contract和provider初始化...');
+      return;
+    }
+
+    try {
+      console.log('📊 开始获取统计数据...');
+
+      // 获取总供应量
+      const totalSupply = await contract.totalSupply();
+
+      // 获取LP pair地址
+      const pairAddress = await contract.pancakePair();
+
+      // 获取合约余额（奖励池）
+      const contractBalance = await provider.getBalance(CONTRACT_ADDRESS);
+
+      // 如果有LP pair，获取交易量数据
+      let totalVolume = '0';
+
+      if (pairAddress && pairAddress !== ethers.ZeroAddress) {
+        try {
+          // 创建LP pair合约实例
+          const pairABI = [
+            'function getReserves() external view returns (uint112 reserve0, uint112 reserve1, uint32 blockTimestampLast)',
+            'function token0() external view returns (address)',
+            'function token1() external view returns (address)'
+          ];
+          const pairContract = new ethers.Contract(pairAddress, pairABI, provider);
+
+          // 获取储备量
+          const reserves = await pairContract.getReserves();
+          const token0 = await pairContract.token0();
+
+          // 判断哪个是BNB，哪个是TAX
+          const isTaxToken0 = token0.toLowerCase() === CONTRACT_ADDRESS.toLowerCase();
+          const bnbReserve = isTaxToken0 ? reserves.reserve1 : reserves.reserve0;
+
+          // 计算总交易量（以BNB储备量的2倍作为估算）
+          totalVolume = ethers.formatEther(bnbReserve * BigInt(2));
+        } catch (error) {
+          console.error('获取LP数据失败:', error);
+        }
+      }
+
+      // 先更新基础数据（保持原有的holders值）
+      setStats(prev => ({
+        totalSupply: ethers.formatEther(totalSupply),
+        holders: prev.holders, // 保持原有值
+        totalVolume: totalVolume,
+        totalRewards: ethers.formatEther(contractBalance)
+      }));
+
+      // 异步获取持有者数量（不阻塞其他数据）
+      fetchHoldersCount().then(holders => {
+        console.log('更新持有者数量:', holders);
+        setStats(prev => ({
+          ...prev,
+          holders: holders
+        }));
+      });
+
+    } catch (error) {
+      console.error('❌ 获取统计数据失败:', error);
+    }
+  }, [contract, provider, fetchHoldersCount]);
+
   // 获取合约信息
   const fetchContractInfo = useCallback(async () => {
     if (!contract) return;
@@ -641,18 +773,26 @@ export const Web3Provider = ({ children }) => {
 
   // 定时更新数据
   useEffect(() => {
-    if (!userAddress || !contract) return;
+    if (!contract) return;
 
-    fetchBalances();
-    fetchContractInfo();
+    // 统计数据不需要用户地址也可以获取
+    fetchStats();
 
-    const interval = setInterval(() => {
+    if (userAddress) {
       fetchBalances();
       fetchContractInfo();
+    }
+
+    const interval = setInterval(() => {
+      fetchStats();
+      if (userAddress) {
+        fetchBalances();
+        fetchContractInfo();
+      }
     }, UPDATE_INTERVAL);
 
     return () => clearInterval(interval);
-  }, [userAddress, contract, fetchBalances, fetchContractInfo]);
+  }, [userAddress, contract, fetchBalances, fetchContractInfo, fetchStats]);
 
   const value = {
     // 状态
@@ -677,6 +817,9 @@ export const Web3Provider = ({ children }) => {
     lpInfo,
     isWhitelisted,
 
+    // 统计数据
+    stats,
+
     // 函数
     connectWallet,
     disconnectWallet,
@@ -691,6 +834,7 @@ export const Web3Provider = ({ children }) => {
     addLiquidity,
     fetchBalances,
     fetchContractInfo,
+    fetchStats,
 
     // Swap 函数
     swapBNBForTokens,

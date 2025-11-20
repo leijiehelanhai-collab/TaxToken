@@ -29,6 +29,10 @@
     "admin": "Admin"
   },
   "home": {
+    "hero_title": "TAX TOKEN",
+    "hero_subtitle": "Next-generation decentralized tax token, building a sustainable DeFi ecosystem",
+    "get_started": "Get Started",
+    "learn_more": "Learn More",
     "welcome_title": "Welcome to TaxToken DApp",
     "welcome_subtitle": "A decentralized platform supporting presale, tax mechanics and LP rewards",
     "trading_status": "Trading:",
@@ -38,6 +42,15 @@
     "presale_on": "Ongoing",
     "presale_off": "Ended",
     "stats": {
+      "total_supply": "Total Supply",
+      "total_supply_detail": "TAX Tokens",
+      "holders": "Holders",
+      "holders_detail": "Global Users",
+      "loading": "Loading...",
+      "total_volume": "Total Volume",
+      "total_volume_detail": "BNB Liquidity",
+      "lp_rewards": "LP Rewards Pool",
+      "lp_rewards_detail": "BNB Claimable",
       "buy_tax": "Buy Tax",
       "buy_detail": "Rewards {{reward}}% + Burn {{burn}}% + Marketing {{marketing}}%",
       "sell_tax": "Sell Tax",
@@ -51,6 +64,21 @@
       "whitelist_detail_off": "Normal tax"
     },
     "features": {
+      "fair_presale_title": "Fair Presale",
+      "fair_presale_desc": "Whitelist mechanism ensures fair opportunities for all participants. Independent quota design prevents whale monopoly and protects small investors.",
+      "fair_presale_feature1": "Whitelist verification",
+      "fair_presale_feature2": "Individual quota limits",
+      "fair_presale_feature3": "Transparent presale process",
+      "smart_tax_title": "Smart Tax",
+      "smart_tax_desc": "Innovative triple tax mechanism automatically distributes to reward pool, burn pool, and marketing wallet for sustainable token economics.",
+      "smart_tax_feature1": "LP holder rewards",
+      "smart_tax_feature2": "Deflationary burn mechanism",
+      "smart_tax_feature3": "Marketing development fund",
+      "lp_rewards_title": "LP Rewards",
+      "lp_rewards_desc": "Liquidity providers earn trading tax rewards distributed proportionally to LP holdings, creating passive income for long-term holders.",
+      "lp_rewards_feature1": "Proportional reward distribution",
+      "lp_rewards_feature2": "Paid in BNB",
+      "lp_rewards_feature3": "Claim anytime",
       "presale_title": "Presale",
       "presale_desc": "Whitelist presale with address quota. Only whitelisted users can buy during presale.",
       "tax_title": "Tax Mechanics",
@@ -63,6 +91,56 @@
       "presale": "Join Presale",
       "rewards": "Claim Rewards",
       "admin": "Admin Panel"
+    },
+    "partners": {
+      "title": "Partners"
+    },
+    "core": {
+      "chip": "Core Values",
+      "title": "Core values of TAX token",
+      "transparent_title": "Transparent & Verifiable",
+      "transparent_desc": "All taxes, LP rewards, and contract states are on-chain and auditable.",
+      "sustainable_title": "Sustainable Rewards",
+      "sustainable_desc": "Trading taxes continuously feed the reward pool. LP holders can claim BNB sustainably.",
+      "governance_title": "Flexible Governance",
+      "governance_desc": "Govern and fine-tune tax rates, trading switch, whitelist and reward parameters.",
+      "ecosystem_title": "Ecosystem Ready",
+      "ecosystem_desc": "Compatible with DEX, NFT and cross-chain bridges to unlock more use cases."
+    },
+    "capabilities": {
+      "chip": "Capabilities",
+      "title": "On-chain intelligence, unlocking token potential",
+      "subtitle": "Multi-scenario capabilities around TAX token to accelerate Web3 value growth.",
+      "data_insight_title": "On-chain Data Insight",
+      "data_insight_desc": "Monitor volume, holder distribution, liquidity and reward pool in real time.",
+      "dynamic_tax_title": "Dynamic Tax & Buyback",
+      "dynamic_tax_desc": "Adjust taxes based on market conditions with buyback/burn to optimize deflation.",
+      "reputation_title": "Reputation & Whitelist",
+      "reputation_desc": "Fair presale and incentive rules to mitigate sybil and farming behaviors.",
+      "lp_auto_title": "Automated LP Rewards",
+      "lp_auto_desc": "Proportional BNB rewards auto-calculated and claimable, lowering participation barrier.",
+      "ecosystem_title": "Ecosystem Expansion",
+      "ecosystem_desc": "DEX, NFT, cross-chain and brand partnerships to extend token utility."
+    },
+    "tech": {
+      "chip": "Technology",
+      "heading_prefix": "TAX Token ·",
+      "heading_suffix": "Intelligent Tax Framework",
+      "desc": "Govern tax rates, trading switch, whitelist and reward rules on-chain; execute strategies via oracles with verifiable and auditable distribution.",
+      "card1_title": "On‑chain Tax Engine",
+      "card1_desc": "On-chain managed tax/trading/whitelist/reward parameters with automated execution and verifiable settlement.",
+      "card1_alt": "On-chain tax engine visual",
+      "card2_title": "AI‑Oracles Pricing & Risk",
+      "card2_desc": "Price/risk oracle signals adjust buy/sell tax and buyback windows, secured by multisig and audits.",
+      "card2_alt": "Oracle pricing and risk visual"
+    },
+    "future": {
+      "chip": "Ecosystem & Future",
+      "title_prefix": "The Future",
+      "title_highlight": "Vision",
+      "title_suffix": "of TAX",
+      "desc": "Looking ahead, TAX evolves around sustainable rewards, dynamic taxes and ecosystem synergy: integrating richer oracles, expanding cross-chain and DEX partnerships to build a transparent, trustworthy token economy with stable, verifiable yields for long-term holders.",
+      "ai_alt": "AI circular visual"
     }
   },
   "swap": {

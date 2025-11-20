@@ -23,12 +23,17 @@
   },
   "nav": {
     "home": "主页",
+    "navigation": "导航",
     "presale": "预售",
     "swap": "兑换",
     "rewards": "奖励",
     "admin": "管理"
   },
   "home": {
+    "hero_title": "TAX TOKEN",
+    "hero_subtitle": "新一代去中心化税收代币，构建可持续发展的DeFi生态系统",
+    "get_started": "开始使用",
+    "learn_more": "了解更多",
     "welcome_title": "欢迎使用 TaxToken DApp",
     "welcome_subtitle": "支持预售、税收机制、LP奖励分配的去中心化代币管理平台",
     "trading_status": "交易状态:",
@@ -38,6 +43,15 @@
     "presale_on": "进行中",
     "presale_off": "已结束",
     "stats": {
+      "total_supply": "总供应量",
+      "total_supply_detail": "TAX 代币",
+      "holders": "持有者",
+      "holders_detail": "全球用户",
+      "loading": "加载中...",
+      "total_volume": "总交易量",
+      "total_volume_detail": "BNB 流动性",
+      "lp_rewards": "LP奖励池",
+      "lp_rewards_detail": "BNB 可领取",
       "buy_tax": "买入税",
       "buy_detail": "奖励 {{reward}}% + 燃烧 {{burn}}% + 营销 {{marketing}}%",
       "sell_tax": "卖出税",
@@ -51,6 +65,21 @@
       "whitelist_detail_off": "正常收税"
     },
     "features": {
+      "fair_presale_title": "公平预售",
+      "fair_presale_desc": "采用白名单机制，确保每个参与者都有公平机会。独立配额设计，防止大户垄断，保护小型投资者利益。",
+      "fair_presale_feature1": "白名单验证机制",
+      "fair_presale_feature2": "个人配额限制",
+      "fair_presale_feature3": "透明预售流程",
+      "smart_tax_title": "智能税收",
+      "smart_tax_desc": "创新的三重税收机制，自动分配到奖励池、燃烧池和营销钱包，实现代币经济的可持续发展。",
+      "smart_tax_feature1": "LP持有者奖励",
+      "smart_tax_feature2": "通缩燃烧机制",
+      "smart_tax_feature3": "营销发展基金",
+      "lp_rewards_title": "LP奖励",
+      "lp_rewards_desc": "流动性提供者可获得交易税收奖励，按LP持有比例分配，为长期持有者创造被动收入。",
+      "lp_rewards_feature1": "按比例分配奖励",
+      "lp_rewards_feature2": "BNB形式发放",
+      "lp_rewards_feature3": "随时可领取",
       "presale_title": "预售功能",
       "presale_desc": "支持白名单预售，每个地址有独立配额。预售期间，只有白名单用户才能购买代币。",
       "tax_title": "税收机制",
@@ -63,6 +92,100 @@
       "presale": "参与预售",
       "rewards": "领取奖励",
       "admin": "管理面板"
+    },
+    "partners": {
+      "title": "合作伙伴"
+    },
+    "core": {
+      "chip": "核心价值",
+      "title": "TAX 代币的核心价值",
+      "transparent_title": "透明可验证",
+      "transparent_desc": "交易税收、LP 奖励、合约状态全部链上可查，公开透明。",
+      "sustainable_title": "可持续奖励",
+      "sustainable_desc": "税收自动注入奖励池，LP 持有者可持续领取 BNB 收益。",
+      "governance_title": "灵活治理",
+      "governance_desc": "支持税率/交易状态/白名单等参数治理与快速调优。",
+      "ecosystem_title": "生态融合",
+      "ecosystem_desc": "兼容 DEX、NFT 与跨链桥，助力更多应用场景落地。"
+    },
+    "capabilities": {
+      "chip": "应用能力",
+      "title": "链上智能，释放代币潜力",
+      "subtitle": "围绕 TAX 代币的多场景能力，助力 Web3 价值高速增长。",
+      "data_insight_title": "链上数据洞察",
+      "data_insight_desc": "实时监控交易量、持币分布、流动性与奖励池状态。",
+      "dynamic_tax_title": "动态税收与回购",
+      "dynamic_tax_desc": "基于市场状态调节税率，结合回购与销毁，优化通缩模型。",
+      "reputation_title": "信誉与白名单系统",
+      "reputation_desc": "更公平的预售与激励规则，抑制女巫与羊毛党。",
+      "lp_auto_title": "LP 奖励自动化",
+      "lp_auto_desc": "按持仓比例自动结算与发放 BNB 奖励，降低参与门槛。",
+      "ecosystem_title": "生态扩展与合作",
+      "ecosystem_desc": "支持 DEX、NFT、跨链与品牌合作，拓展代币应用边界。"
+    },
+    "tech": {
+      "chip": "技术",
+      "heading_prefix": "TAX 代币 ·",
+      "heading_suffix": "智能税收框架",
+      "desc": "将税率、交易开关、白名单与奖励规则上链治理；结合预言机驱动的策略执行，确保可验证、可审计与高效分发。",
+      "card1_title": "链上税务引擎",
+      "card1_desc": "税率、交易开关、白名单与奖励参数链上托管并自动执行，支持多阶段策略与可验证结算。",
+      "card1_alt": "链上税收引擎图示",
+      "card2_title": "TAX定价与风险",
+      "card2_desc": "引入价格/风险信号的预言机，智能调节买卖税与回购窗口，配合多签审计保证策略安全可追溯。",
+      "card2_alt": "预言机定价与风控图示"
+    },
+    "future": {
+      "chip": "生态与未来",
+      "title_prefix": "TAX的",
+      "title_highlight": "未来",
+      "title_suffix": "愿景",
+      "desc": "面向未来，TAX 将围绕“可持续奖励、动态税收、生态协同”持续迭代：引入更多数据预言机、拓展跨链与 DEX 合作，打造透明可信的代币经济，为长期持有者创造稳定且可验证的收益体验。",
+      "ai_alt": "AI 圆形视觉"
+    }
+  },
+  "navigation": {
+    "title": "导航中心",
+    "subtitle": "探索 TaxToken DApp 的所有功能，快速访问您需要的页面",
+    "quick_stats": "快速统计",
+    "total_supply": "总供应量",
+    "holders": "持有者",
+    "volume": "交易量",
+    "bnb_rewards": "BNB 奖励",
+    "wallet_connected": "已连接钱包",
+    "wallet_connected_desc": "您已成功连接到 TaxToken DApp，可以开始使用所有功能",
+    "enter_page": "进入页面",
+    "pages": {
+      "home": {
+        "title": "主页",
+        "subtitle": "项目概览和统计数据",
+        "description": "查看代币总供应量、持有者数量、交易量等关键指标，了解项目整体状况。",
+        "features": ["实时数据展示", "项目状态监控", "快速入口导航"]
+      },
+      "presale": {
+        "title": "预售",
+        "subtitle": "参与代币预售活动",
+        "description": "白名单用户可以参与预售，每个地址都有独立的购买配额，确保公平分配。",
+        "features": ["白名单验证", "配额管理", "实时价格"]
+      },
+      "swap": {
+        "title": "兑换",
+        "subtitle": "BNB 与 TAX 代币兑换",
+        "description": "通过 PancakeSwap 进行 BNB 和 TAX 代币的自由兑换，享受低滑点和深度流动性。",
+        "features": ["即时兑换", "最优价格", "实时图表"]
+      },
+      "rewards": {
+        "title": "奖励",
+        "subtitle": "LP 持有者奖励领取",
+        "description": "流动性提供者可以按持有比例领取交易税收产生的 BNB 奖励，创造被动收入。",
+        "features": ["按比例分配", "BNB 奖励", "随时领取"]
+      },
+      "admin": {
+        "title": "管理",
+        "subtitle": "合约管理面板",
+        "description": "合约所有者可以管理交易状态、调整税率、添加白名单等高级功能。",
+        "features": ["税率设置", "状态管理", "白名单管理"]
+      }
     }
   },
   "swap": {

@@ -36,3 +36,19 @@ export const PANCAKE_ROUTER = {
 
 // 更新间隔（毫秒）
 export const UPDATE_INTERVAL = 10000; // 10秒
+
+// BSCScan API 配置
+export const BSCSCAN_API = {
+  97: {
+    // 使用 Vite 代理路径以解决 CORS 问题
+    url: '/api/bscscan',
+    // 免费API key，每秒5次请求限制
+    // 建议在 https://bscscan.com/myapikey 注册自己的API key
+    apiKey: 'SMXE1PTV36S1NU1DEH3MHMMA1EVE5ICFCG'
+  },
+  56: {
+    // 使用 Vite 代理路径以解决 CORS 问题
+    url: '/api/bscscan-mainnet',
+    apiKey: 'SMXE1PTV36S1NU1DEH3MHMMA1EVE5ICFCG'
+  }
+};

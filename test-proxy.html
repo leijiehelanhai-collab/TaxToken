@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>代理测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .result {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        button {
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 5px;
+        }
+        button:hover {
+            background: #0052cc;
+        }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+        .info { color: #00bfff; }
+    </style>
+</head>
+<body>
+    <h1>🔧 Vite 代理测试工具</h1>
+
+    <div>
+        <p><strong>测试说明：</strong></p>
+        <p>此页面必须通过 Vite 开发服务器访问才能使用代理功能</p>
+        <p><strong>访问地址：</strong> http://localhost:3003/test-proxy.html</p>
+    </div>
+
+    <button onclick="testProxy()">测试代理 API</button>
+    <button onclick="clearResult()">清除结果</button>
+
+    <div id="result" class="result">等待测试...</div>
+
+    <script>
+        const CONTRACT_ADDRESS = '0x669F53e3FA59b46d12740A20746855dCab899674';
+        const API_KEY = 'SMXE1PTV36S1NU1DEH3MHMMA1EVE5ICFCG';
+
+        function log(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            resultDiv.innerHTML += `<div class="${className}">${message}</div>`;
+        }
+
+        function clearResult() {
+            document.getElementById('result').innerHTML = '<div class="info">等待测试...</div>';
+        }
+
+        async function testProxy() {
+            clearResult();
+            log('🚀 开始测试代理...', 'info');
+
+            try {
+                // 使用代理路径
+                const proxyUrl = `/api/bscscan?module=account&action=tokentx&contractaddress=${CONTRACT_ADDRESS}&page=1&offset=100&sort=asc&apikey=${API_KEY}`;
+
+                log(`\n📡 请求URL: ${proxyUrl}`, 'info');
+                log('⏳ 发送请求中...', 'info');
+
+                const response = await fetch(proxyUrl);
+
+                log(`\n✅ 响应状态: ${response.status} ${response.statusText}`, 'success');
+
+                const data = await response.json();
+
+                log(`\n📊 API响应:`, 'info');
+                log(`状态: ${data.status}`, data.status === '1' ? 'success' : 'error');
+                log(`消息: ${data.message}`, 'info');
+                log(`结果数量: ${data.result?.length || 0}`, 'info');
+
+                if (data.status === '1' && data.result && Array.isArray(data.result)) {
+                    // 统计持有者
+                    const uniqueHolders = new Set();
+                    const zeroAddress = '0x0000000000000000000000000000000000000000';
+
+                    data.result.forEach(tx => {
+                        if (tx.to && tx.to.toLowerCase() !== zeroAddress.toLowerCase() &&
+                            tx.to.toLowerCase() !== CONTRACT_ADDRESS.toLowerCase()) {
+                            uniqueHolders.add(tx.to.toLowerCase());
+                        }
+                    });
+
+                    log(`\n🎉 统计完成:`, 'success');
+                    log(`总Transfer事件: ${data.result.length}`, 'success');
+                    log(`唯一持有者数量: ${uniqueHolders.size}`, 'success');
+
+                    if (uniqueHolders.size > 0) {
+                        log(`\n👥 持有者列表:`, 'info');
+                        Array.from(uniqueHolders).slice(0, 10).forEach((addr, idx) => {
+                            log(`${idx + 1}. ${addr}`, 'info');
+                        });
+                        if (uniqueHolders.size > 10) {
+                            log(`... 还有 ${uniqueHolders.size - 10} 个持有者`, 'info');
+                        }
+                    }
+
+                    log(`\n📝 前3条Transfer事件:`, 'info');
+                    data.result.slice(0, 3).forEach((tx, idx) => {
+                        log(`${idx + 1}. From: ${tx.from.slice(0, 10)}... -> To: ${tx.to.slice(0, 10)}...`, 'info');
+                    });
+
+                    log(`\n✅ 代理工作正常！持有者数量应该显示在主页上。`, 'success');
+                } else {
+                    log(`\n⚠️ API返回了数据，但没有Transfer事件`, 'error');
+                    log(`可能原因：合约是新部署的，还没有交易记录`, 'info');
+                    log(`完整响应: ${JSON.stringify(data, null, 2)}`, 'info');
+                }
+
+            } catch (error) {
+                log(`\n❌ 错误: ${error.message}`, 'error');
+                log(`\n💡 可能的原因:`, 'info');
+                log(`1. 未通过 Vite 开发服务器访问此页面`, 'info');
+                log(`2. 代理配置有误`, 'info');
+                log(`3. 网络连接问题`, 'info');
+                log(`\n请确保通过 http://localhost:3003/test-proxy.html 访问`, 'info');
+            }
+        }
+
+        // 页面加载时显示当前URL
+        window.addEventListener('load', () => {
+            log(`当前访问地址: ${window.location.href}`, 'info');
+            if (!window.location.href.includes('localhost:')) {
+                log(`\n⚠️ 警告: 您可能不是通过 Vite 开发服务器访问的`, 'error');
+                log(`请访问: http://localhost:3003/test-proxy.html`, 'info');
+            }
+        });
+    </script>
+</body>
+</html>

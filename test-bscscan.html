@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BSCScan API 测试</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .result {
+            background: #2a2a2a;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        button {
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: #0052cc;
+        }
+        .success { color: #00ff00; }
+        .error { color: #ff0000; }
+        .info { color: #00bfff; }
+    </style>
+</head>
+<body>
+    <h1>BSCScan API 测试工具</h1>
+
+    <div>
+        <p><strong>合约地址:</strong> 0x669F53e3FA59b46d12740A20746855dCab899674</p>
+        <p><strong>网络:</strong> BSC Testnet (Chain ID: 97)</p>
+        <p><strong>API Key:</strong> SMXE1PTV36S1NU1DEH3MHMMA1EVE5ICFCG</p>
+    </div>
+
+    <button onclick="testAPI()">测试 BSCScan API</button>
+
+    <div id="result" class="result"></div>
+
+    <script>
+        const CONTRACT_ADDRESS = '0x669F53e3FA59b46d12740A20746855dCab899674';
+        const API_KEY = 'SMXE1PTV36S1NU1DEH3MHMMA1EVE5ICFCG';
+        const API_URL = 'https://api-testnet.bscscan.com/api';
+
+        function log(message, type = 'info') {
+            const resultDiv = document.getElementById('result');
+            const className = type === 'error' ? 'error' : type === 'success' ? 'success' : 'info';
+            resultDiv.innerHTML += `<div class="${className}">${message}</div>`;
+        }
+
+        async function testAPI() {
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = '<div class="info">开始测试...</div>';
+
+            try {
+                // 测试1: 获取代币信息
+                log('\n=== 测试1: 获取代币基本信息 ===', 'info');
+                const tokenInfoUrl = `${API_URL}?module=token&action=tokeninfo&contractaddress=${CONTRACT_ADDRESS}&apikey=${API_KEY}`;
+                log(`请求URL: ${tokenInfoUrl}`);
+
+                const tokenResponse = await fetch(tokenInfoUrl);
+                const tokenData = await tokenResponse.json();
+                log(`响应: ${JSON.stringify(tokenData, null, 2)}`);
+
+                // 测试2: 获取Transfer事件
+                log('\n=== 测试2: 获取Transfer事件 ===', 'info');
+                const transferUrl = `${API_URL}?module=account&action=tokentx&contractaddress=${CONTRACT_ADDRESS}&page=1&offset=100&sort=asc&apikey=${API_KEY}`;
+                log(`请求URL: ${transferUrl}`);
+
+                const transferResponse = await fetch(transferUrl);
+                const transferData = await transferResponse.json();
+
+                log(`状态: ${transferData.status}`);
+                log(`消息: ${transferData.message}`);
+                log(`结果数量: ${transferData.result?.length || 0}`);
+
+                if (transferData.status === '1' && transferData.result && Array.isArray(transferData.result)) {
+                    // 统计持有者
+                    const uniqueHolders = new Set();
+                    const zeroAddress = '0x0000000000000000000000000000000000000000';
+
+                    transferData.result.forEach(tx => {
+                        if (tx.to && tx.to.toLowerCase() !== zeroAddress.toLowerCase() &&
+                            tx.to.toLowerCase() !== CONTRACT_ADDRESS.toLowerCase()) {
+                            uniqueHolders.add(tx.to.toLowerCase());
+                        }
+                    });
+
+                    log(`\n✅ 统计完成:`, 'success');
+                    log(`总Transfer事件: ${transferData.result.length}`, 'success');
+                    log(`唯一持有者数量: ${uniqueHolders.size}`, 'success');
+                    log(`\n持有者列表:`, 'info');
+                    Array.from(uniqueHolders).forEach((addr, idx) => {
+                        log(`${idx + 1}. ${addr}`, 'info');
+                    });
+
+                    // 显示前几条交易
+                    log(`\n前5条Transfer事件:`, 'info');
+                    transferData.result.slice(0, 5).forEach((tx, idx) => {
+                        log(`${idx + 1}. From: ${tx.from} -> To: ${tx.to} | Value: ${tx.value}`, 'info');
+                    });
+                } else {
+                    log(`❌ 没有找到Transfer事件或API返回错误`, 'error');
+                    log(`完整响应: ${JSON.stringify(transferData, null, 2)}`, 'error');
+                }
+
+            } catch (error) {
+                log(`\n❌ 错误: ${error.message}`, 'error');
+                log(`详细信息: ${error.stack}`, 'error');
+            }
+        }
+    </script>
+</body>
+</html>
