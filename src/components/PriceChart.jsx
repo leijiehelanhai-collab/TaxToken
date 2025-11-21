@@ -244,26 +244,26 @@ export default function PriceChart() {
   const latestPrice = filteredData[filteredData.length - 1];
 
   return (
-    <div className="glass-card p-6">
+    <div className="glass-card p-4 sm:p-5 md:p-6">
       {/* 标题和控制 */}
-      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-6 gap-4">
+      <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-4 sm:mb-6 gap-3 sm:gap-4">
         <div>
-          <h3 className="text-xl lg:text-2xl font-bold text-gradient flex items-center gap-2 mb-2">
-            <FaChartLine />
-            {t('swap.price_chart')}
+          <h3 className="text-lg sm:text-xl lg:text-2xl font-bold text-gradient flex items-center gap-2 mb-2 flex-wrap">
+            <FaChartLine className="text-base sm:text-lg lg:text-xl" />
+            <span>{t('swap.price_chart')}</span>
             {loading && (
               <span className="text-xs text-cyan-400 animate-pulse">● {t('common.updating')}</span>
             )}
           </h3>
-          <div className="flex items-baseline gap-3">
-            <span className="text-2xl lg:text-3xl font-bold text-white">
+          <div className="flex flex-wrap items-baseline gap-2 sm:gap-3">
+            <span className="text-xl sm:text-2xl lg:text-3xl font-bold text-white break-words">
               {latestPrice.price.toFixed(8)} BNB
             </span>
-            <span className={`text-sm font-semibold ${priceChange.percent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+            <span className={`text-xs sm:text-sm font-semibold ${priceChange.percent >= 0 ? 'text-green-400' : 'text-red-400'}`}>
               {priceChange.percent >= 0 ? '↑' : '↓'} {Math.abs(priceChange.percent).toFixed(2)}%
             </span>
           </div>
-          <p className="text-sm text-gray-400 mt-1">
+          <p className="text-xs sm:text-sm text-gray-400 mt-1">
             ≈ ${latestPrice.priceUSD.toFixed(6)} USD
           </p>
         </div>
@@ -273,7 +273,7 @@ export default function PriceChart() {
           <div className="flex gap-2">
             <button
               onClick={() => setChartType('area')}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all touch-manipulation min-h-[36px] ${
                 chartType === 'area'
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
                   : 'bg-slate-700/50 text-gray-300 hover:bg-slate-600/50'
@@ -283,7 +283,7 @@ export default function PriceChart() {
             </button>
             <button
               onClick={() => setChartType('line')}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all touch-manipulation min-h-[36px] ${
                 chartType === 'line'
                   ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
                   : 'bg-slate-700/50 text-gray-300 hover:bg-slate-600/50'
@@ -299,7 +299,7 @@ export default function PriceChart() {
               <button
                 key={range}
                 onClick={() => setTimeRange(range)}
-                className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+                className={`px-2.5 sm:px-3 py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all touch-manipulation min-h-[36px] ${
                   timeRange === range
                     ? 'bg-gradient-to-r from-cyan-500 to-blue-600 text-white'
                     : 'bg-slate-700/50 text-gray-300 hover:bg-slate-600/50'
@@ -313,7 +313,7 @@ export default function PriceChart() {
       </div>
 
       {/* 图表 */}
-      <div className="w-full h-[300px] lg:h-[400px]">
+      <div className="w-full h-[250px] sm:h-[300px] lg:h-[400px]">
         <ResponsiveContainer width="100%" height="100%">
           {chartType === 'area' ? (
             <AreaChart
@@ -378,9 +378,9 @@ export default function PriceChart() {
       </div>
 
       {/* 图表说明 */}
-      <div className="mt-6 flex items-start gap-2 p-3 bg-green-500/10 rounded-lg border border-green-500/20">
-        <FaClock className="text-green-400 mt-0.5 flex-shrink-0" />
-        <div className="text-sm text-gray-300">
+      <div className="mt-4 sm:mt-6 flex items-start gap-2 p-2.5 sm:p-3 bg-green-500/10 rounded-lg border border-green-500/20">
+        <FaClock className="text-green-400 mt-0.5 flex-shrink-0 text-sm sm:text-base" />
+        <div className="text-xs sm:text-sm text-gray-300">
           <p className="font-semibold text-white mb-1">{t('swap.real_time_data')}</p>
           <p className="text-gray-400">
             {t('swap.real_time_data_desc', {

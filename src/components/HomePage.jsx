@@ -9,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import { FloatingOrb, GeometricShape, GridPattern, SpinningRing, CoinAnimation } from './DecorativeShapes';
 
 export default function HomePage() {
   const { t } = useTranslation();
@@ -120,61 +121,67 @@ export default function HomePage() {
     <div className="space-y-10">
       {/* Hero Section */}
       <motion.div
-        className="glass-card p-10 md:p-12 text-center relative overflow-hidden"
+        className="glass-card p-6 sm:p-8 md:p-10 lg:p-12 text-center relative overflow-hidden"
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
       >
+        {/* 装饰性背景 */}
+        <GridPattern className="opacity-30" />
+        <FloatingOrb className="top-10 -left-20" color="cyan" size="lg" delay={0} />
+        <FloatingOrb className="bottom-10 -right-20" color="purple" size="md" delay={1} />
+        <SpinningRing className="top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 opacity-20" size={300} />
+        
         <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 via-transparent to-blue-600/5 pointer-events-none" />
         <div className="relative z-10">
-          <div className="w-20 h-20 mx-auto mb-6 bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 rounded-3xl flex items-center justify-center font-bold text-2xl shadow-2xl shadow-cyan-500/30">
+          <div className="w-14 h-14 sm:w-16 sm:h-16 md:w-18 md:h-18 mx-auto mb-3 sm:mb-4 md:mb-5 bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center font-bold text-lg sm:text-xl shadow-2xl shadow-cyan-500/30">
             <span className="tracking-tight text-white">TAX</span>
           </div>
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-gradient mb-6">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold text-gradient mb-3 sm:mb-4 md:mb-5 px-2">
             {t('home.hero_title')}
           </h1>
-          <p className="text-gray-300 text-xl md:text-2xl mb-8 max-w-3xl mx-auto font-medium leading-relaxed">
+          <p className="text-gray-300 text-sm sm:text-base md:text-lg mb-5 sm:mb-6 md:mb-7 max-w-2xl mx-auto font-medium leading-relaxed px-2">
             {t('home.hero_subtitle')}
           </p>
 
-          <div className="flex flex-col md:flex-row justify-center gap-4 text-sm mb-8">
+          <div className="flex flex-col sm:flex-row justify-center gap-2 sm:gap-3 text-xs sm:text-sm mb-5 sm:mb-6 md:mb-7 px-2">
             <motion.div
-              className={`flex items-center gap-2.5 px-5 py-3 rounded-xl font-semibold backdrop-blur-sm ${
+              className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg font-semibold backdrop-blur-sm ${
                 tradingEnabled ? 'bg-green-500/15 text-green-400 border border-green-500/30' : 'bg-gray-500/15 text-gray-400 border border-gray-500/30'
               }`}
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
-              {tradingEnabled ? <FaCheckCircle className="text-lg" /> : <FaTimesCircle className="text-lg" />}
-              <span>{t('home.trading_status')} {tradingEnabled ? t('home.trading_on') : t('home.trading_off')}</span>
+              {tradingEnabled ? <FaCheckCircle className="text-sm sm:text-base" /> : <FaTimesCircle className="text-sm sm:text-base" />}
+              <span className="whitespace-nowrap text-xs sm:text-sm">{t('home.trading_status')} {tradingEnabled ? t('home.trading_on') : t('home.trading_off')}</span>
             </motion.div>
             <motion.div
-              className={`flex items-center gap-2.5 px-5 py-3 rounded-xl font-semibold backdrop-blur-sm ${
+              className={`flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-2 sm:py-2.5 rounded-lg font-semibold backdrop-blur-sm ${
                 presaleActive ? 'bg-cyan-500/15 text-cyan-400 border border-cyan-500/30' : 'bg-gray-500/15 text-gray-400 border border-gray-500/30'
               }`}
               whileHover={{ scale: 1.05 }}
               transition={{ duration: 0.2 }}
             >
-              {presaleActive ? <FaCheckCircle className="text-lg" /> : <FaTimesCircle className="text-lg" />}
-              <span>{t('home.presale_status')} {presaleActive ? t('home.presale_on') : t('home.presale_off')}</span>
+              {presaleActive ? <FaCheckCircle className="text-sm sm:text-base" /> : <FaTimesCircle className="text-sm sm:text-base" />}
+              <span className="whitespace-nowrap text-xs sm:text-sm">{t('home.presale_status')} {presaleActive ? t('home.presale_on') : t('home.presale_off')}</span>
             </motion.div>
           </div>
 
-          <div className="flex flex-col md:flex-row justify-center gap-4">
+          <div className="flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-3 px-2">
             <motion.button
-              className="btn-primary text-lg px-8 py-4"
+              className="btn-primary text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3 w-full sm:w-auto touch-manipulation min-h-[44px]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <FaRocket className="mr-2" />
+              <FaRocket className="mr-2 inline text-sm" />
               {t('home.get_started')}
             </motion.button>
             <motion.button
-              className="btn-secondary text-lg px-8 py-4"
+              className="btn-secondary text-sm sm:text-base px-5 sm:px-6 py-2.5 sm:py-3 w-full sm:w-auto touch-manipulation min-h-[44px]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
-              <FaShieldAlt className="mr-2" />
+              <FaShieldAlt className="mr-2 inline text-sm" />
               {t('home.learn_more')}
             </motion.button>
           </div>
@@ -182,7 +189,7 @@ export default function HomePage() {
       </motion.div>
 
       {/* 统计卡片 */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-5">
         {stats.map((stat, index) => (
           <motion.div
             key={index}
@@ -192,23 +199,27 @@ export default function HomePage() {
             transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
             whileHover={{ scale: 1.05, y: -5, transition: { duration: 0.2 } }}
           >
+            {/* 装饰性几何图形 */}
+            <div className="absolute top-1 right-1 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 opacity-10">
+              <GeometricShape type={index % 3 === 0 ? 'circle' : index % 3 === 1 ? 'hexagon' : 'triangle'} />
+            </div>
             <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/5 to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            <div className="relative z-10">
-              <div className={`w-14 h-14 mx-auto mb-5 bg-gradient-to-br ${getColorClass(stat.color)} rounded-2xl flex items-center justify-center shadow-lg transform group-hover:rotate-6 transition-transform duration-300`}>
-                <stat.icon className="text-white text-2xl" />
+            <div className="relative z-10 p-3 xs:p-4 sm:p-5 lg:p-6">
+              <div className={`w-10 h-10 xs:w-11 xs:h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 mx-auto mb-2 xs:mb-3 sm:mb-4 md:mb-5 bg-gradient-to-br ${getColorClass(stat.color)} rounded-lg xs:rounded-xl sm:rounded-2xl flex items-center justify-center shadow-lg transform group-hover:rotate-6 transition-transform duration-300`}>
+                <stat.icon className="text-white text-lg xs:text-xl sm:text-2xl" />
               </div>
-              <h3 className="text-gray-400 text-sm font-semibold mb-3 uppercase tracking-wide">{stat.label}</h3>
-              <p className="text-3xl font-bold text-white mb-2">{stat.value}</p>
-              <p className="text-xs text-gray-500 font-medium">{stat.detail}</p>
+              <h3 className="text-gray-400 text-[10px] xs:text-xs sm:text-sm font-semibold mb-1 xs:mb-1.5 sm:mb-2 md:mb-3 uppercase tracking-wide">{stat.label}</h3>
+              <p className="text-xl xs:text-2xl sm:text-2xl md:text-3xl font-bold text-white mb-0.5 xs:mb-1 sm:mb-2">{stat.value}</p>
+              <p className="text-[9px] xs:text-[10px] sm:text-xs text-gray-500 font-medium leading-tight">{stat.detail}</p>
             </div>
           </motion.div>
         ))}
       </div>
 
       {/* 功能介绍 */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
         <motion.div
-          className="glass-card p-8 group relative overflow-hidden"
+          className="glass-card p-6 sm:p-8 group relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
@@ -216,32 +227,32 @@ export default function HomePage() {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-blue-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative z-10">
-            <div className="w-16 h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
-              <FaRocket className="text-white text-3xl" />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-cyan-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-cyan-500/30 group-hover:scale-110 transition-transform duration-300">
+              <FaRocket className="text-white text-2xl sm:text-3xl" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">{t('home.features.fair_presale_title')}</h3>
-            <p className="text-gray-400 text-base leading-relaxed mb-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">{t('home.features.fair_presale_title')}</h3>
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
               {t('home.features.fair_presale_desc')}
             </p>
-            <ul className="text-gray-400 text-sm space-y-2">
+            <ul className="text-gray-400 text-xs sm:text-sm space-y-1.5 sm:space-y-2">
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-cyan-400 text-xs" />
-                {t('home.features.fair_presale_feature1')}
+                <FaCheckCircle className="text-cyan-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.fair_presale_feature1')}</span>
               </li>
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-cyan-400 text-xs" />
-                {t('home.features.fair_presale_feature2')}
+                <FaCheckCircle className="text-cyan-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.fair_presale_feature2')}</span>
               </li>
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-cyan-400 text-xs" />
-                {t('home.features.fair_presale_feature3')}
+                <FaCheckCircle className="text-cyan-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.fair_presale_feature3')}</span>
               </li>
             </ul>
           </div>
         </motion.div>
 
         <motion.div
-          className="glass-card p-8 group relative overflow-hidden"
+          className="glass-card p-6 sm:p-8 group relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.7 }}
@@ -249,32 +260,32 @@ export default function HomePage() {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-purple-500/10 to-pink-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative z-10">
-            <div className="w-16 h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform duration-300">
-              <FaFire className="text-white text-3xl" />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-purple-500 to-pink-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-purple-500/30 group-hover:scale-110 transition-transform duration-300">
+              <FaFire className="text-white text-2xl sm:text-3xl" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">{t('home.features.smart_tax_title')}</h3>
-            <p className="text-gray-400 text-base leading-relaxed mb-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">{t('home.features.smart_tax_title')}</h3>
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
               {t('home.features.smart_tax_desc')}
             </p>
-            <ul className="text-gray-400 text-sm space-y-2">
+            <ul className="text-gray-400 text-xs sm:text-sm space-y-1.5 sm:space-y-2">
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-purple-400 text-xs" />
-                {t('home.features.smart_tax_feature1')}
+                <FaCheckCircle className="text-purple-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.smart_tax_feature1')}</span>
               </li>
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-purple-400 text-xs" />
-                {t('home.features.smart_tax_feature2')}
+                <FaCheckCircle className="text-purple-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.smart_tax_feature2')}</span>
               </li>
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-purple-400 text-xs" />
-                {t('home.features.smart_tax_feature3')}
+                <FaCheckCircle className="text-purple-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.smart_tax_feature3')}</span>
               </li>
             </ul>
           </div>
         </motion.div>
 
         <motion.div
-          className="glass-card p-8 group relative overflow-hidden"
+          className="glass-card p-6 sm:p-8 group relative overflow-hidden"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.8 }}
@@ -282,25 +293,25 @@ export default function HomePage() {
         >
           <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 to-emerald-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
           <div className="relative z-10">
-            <div className="w-16 h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-green-500/30 group-hover:scale-110 transition-transform duration-300">
-              <FaGift className="text-white text-3xl" />
+            <div className="w-14 h-14 sm:w-16 sm:h-16 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl sm:rounded-2xl flex items-center justify-center mb-4 sm:mb-6 shadow-lg shadow-green-500/30 group-hover:scale-110 transition-transform duration-300">
+              <FaGift className="text-white text-2xl sm:text-3xl" />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">{t('home.features.lp_rewards_title')}</h3>
-            <p className="text-gray-400 text-base leading-relaxed mb-4">
+            <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 sm:mb-4">{t('home.features.lp_rewards_title')}</h3>
+            <p className="text-gray-400 text-sm sm:text-base leading-relaxed mb-3 sm:mb-4">
               {t('home.features.lp_rewards_desc')}
             </p>
-            <ul className="text-gray-400 text-sm space-y-2">
+            <ul className="text-gray-400 text-xs sm:text-sm space-y-1.5 sm:space-y-2">
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-green-400 text-xs" />
-                {t('home.features.lp_rewards_feature1')}
+                <FaCheckCircle className="text-green-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.lp_rewards_feature1')}</span>
               </li>
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-green-400 text-xs" />
-                {t('home.features.lp_rewards_feature2')}
+                <FaCheckCircle className="text-green-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.lp_rewards_feature2')}</span>
               </li>
               <li className="flex items-center gap-2">
-                <FaCheckCircle className="text-green-400 text-xs" />
-                {t('home.features.lp_rewards_feature3')}
+                <FaCheckCircle className="text-green-400 text-xs flex-shrink-0" />
+                <span>{t('home.features.lp_rewards_feature3')}</span>
               </li>
             </ul>
           </div>
@@ -309,18 +320,18 @@ export default function HomePage() {
 
       {/* 快速操作 */}
       {userAddress && (
-        <div className="glass-card p-8">
-          <h3 className="text-2xl font-bold text-white mb-6 text-center">{t('home.quick.title')}</h3>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Link to="/presale" className="btn-primary text-center block py-4 text-lg font-semibold">
+        <div className="glass-card p-6 sm:p-8">
+          <h3 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 text-center">{t('home.quick.title')}</h3>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4">
+            <Link to="/presale" className="btn-primary text-center block py-3 sm:py-4 text-base sm:text-lg font-semibold touch-manipulation min-h-[44px] flex items-center justify-center">
               <FaRocket className="inline mr-2" />
               {t('home.quick.presale')}
             </Link>
-            <Link to="/rewards" className="btn-primary text-center block py-4 text-lg font-semibold">
+            <Link to="/rewards" className="btn-primary text-center block py-3 sm:py-4 text-base sm:text-lg font-semibold touch-manipulation min-h-[44px] flex items-center justify-center">
               <FaGift className="inline mr-2" />
               {t('home.quick.rewards')}
             </Link>
-            <Link to="/admin" className="btn-secondary text-center block py-4 text-lg font-semibold">
+            <Link to="/admin" className="btn-secondary text-center block py-3 sm:py-4 text-base sm:text-lg font-semibold touch-manipulation min-h-[44px] flex items-center justify-center">
               <FaCog className="inline mr-2" />
               {t('home.quick.admin')}
             </Link>
@@ -511,15 +522,15 @@ export default function HomePage() {
       >
         <div className="bg-gradient-to-b from-slate-900 via-indigo-900 to-purple-800 p-8 md:p-12">
           <h3 className="text-center text-3xl md:text-4xl font-extrabold text-white mb-8">{t('home.partners.title')}</h3>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-8 gap-y-6 md:gap-y-8 place-items-start md:place-items-center">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-x-4 sm:gap-x-6 md:gap-x-8 gap-y-4 sm:gap-y-6 md:gap-y-8 place-items-start md:place-items-center">
             {partners.map((p, idx) => (
-              <div key={idx} className="flex items-center gap-3 group">
+              <div key={idx} className="flex items-center gap-2 sm:gap-3 group">
                 {p.icon ? (
-                  <p.icon className="text-white/80 group-hover:text-white transition-colors duration-200 text-2xl md:text-3xl" />
+                  <p.icon className="text-white/80 group-hover:text-white transition-colors duration-200 text-xl sm:text-2xl md:text-3xl flex-shrink-0" />
                 ) : (
-                  <div className="w-6 h-6 md:w-7 md:h-7 rounded-md bg-white/20 group-hover:bg-white/30 transition-colors duration-200" />
+                  <div className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7 rounded-md bg-white/20 group-hover:bg-white/30 transition-colors duration-200 flex-shrink-0" />
                 )}
-                <span className={`${getBrandClass(p.name)} text-lg md:text-xl group-hover:text-white transition-colors duration-200`}>
+                <span className={`${getBrandClass(p.name)} text-sm sm:text-base md:text-lg lg:text-xl group-hover:text-white transition-colors duration-200 break-words`}>
                   {p.name}
                 </span>
               </div>

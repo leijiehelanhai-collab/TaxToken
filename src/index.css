@@ -15,12 +15,34 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* 防止移动端双击缩放 */
+    touch-action: manipulation;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display;
     font-feature-settings: 'ss01', 'ss02';
     letter-spacing: -0.02em;
+  }
+
+  /* 移动端优化 */
+  @media (max-width: 640px) {
+    body {
+      font-size: 14px;
+    }
+    
+    /* 优化移动端按钮点击区域 */
+    button, a {
+      -webkit-tap-highlight-color: rgba(6, 182, 212, 0.1);
+    }
+  }
+  
+  /* 防止移动端文字选择 */
+  button, .touch-manipulation {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
   }
 }
 
@@ -49,7 +71,7 @@
 
 /* 玻璃拟态卡片 */
 .glass-card {
-  @apply w-full box-border bg-slate-800/40 backdrop-blur-xl border border-cyan-500/20 rounded-2xl shadow-2xl;
+  @apply w-full box-border bg-slate-800/40 backdrop-blur-xl border border-cyan-500/20 rounded-xl sm:rounded-2xl shadow-2xl;
   background: linear-gradient(135deg, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 0.6) 100%);
   box-shadow:
     0 8px 32px 0 rgba(6, 182, 212, 0.08),
@@ -69,7 +91,7 @@
 
 /* 主按钮样式 */
 .btn-primary {
-  @apply bg-gradient-to-r from-cyan-500 via-cyan-600 to-blue-600 text-white px-6 py-3.5 rounded-xl font-semibold;
+  @apply bg-gradient-to-r from-cyan-500 via-cyan-600 to-blue-600 text-white px-4 sm:px-6 py-2.5 sm:py-3.5 rounded-xl font-semibold;
   @apply hover:from-cyan-400 hover:via-cyan-500 hover:to-blue-500 transition-all duration-300;
   @apply transform hover:scale-[1.02] hover:shadow-xl hover:shadow-cyan-500/30;
   @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
@@ -78,6 +100,7 @@
   overflow: hidden;
   letter-spacing: 0.01em;
   font-weight: 600;
+  touch-action: manipulation;
   box-shadow:
     0 4px 14px 0 rgba(6, 182, 212, 0.25),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
@@ -100,13 +123,14 @@
 
 /* 次要按钮样式 */
 .btn-secondary {
-  @apply px-6 py-3.5 bg-slate-700/60 backdrop-blur-md text-white font-semibold rounded-xl
+  @apply px-4 sm:px-6 py-2.5 sm:py-3.5 bg-slate-700/60 backdrop-blur-md text-white font-semibold rounded-xl
          border border-cyan-500/20 hover:bg-slate-600/70 hover:border-cyan-400/40
          transition-all duration-300;
   @apply transform hover:scale-[1.02] hover:shadow-lg;
   @apply active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none;
   letter-spacing: 0.01em;
   font-weight: 600;
+  touch-action: manipulation;
   box-shadow:
     0 2px 8px 0 rgba(0, 0, 0, 0.15),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
@@ -114,14 +138,21 @@
 
 /* 输入框样式 */
 .input-field {
-  @apply w-full px-4 py-3.5 bg-slate-900/60 border border-cyan-500/20 rounded-xl
+  @apply w-full px-3 sm:px-4 py-2.5 sm:py-3.5 bg-slate-900/60 border border-cyan-500/20 rounded-xl
          text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400/60
          focus:ring-2 focus:ring-cyan-500/20 transition-all backdrop-blur-sm;
   font-weight: 500;
   letter-spacing: 0.01em;
+  font-size: 0.875rem;
   box-shadow:
     inset 0 2px 4px 0 rgba(0, 0, 0, 0.2),
     0 1px 2px 0 rgba(6, 182, 212, 0.05);
+}
+
+@media (min-width: 640px) {
+  .input-field {
+    font-size: 1rem;
+  }
 }
 
 .input-field:focus {
@@ -133,7 +164,8 @@
 
 /* 统计卡片 */
 .stat-card {
-  @apply glass-card p-6 text-center;
+  @apply glass-card text-center;
+  /* padding在组件中通过className直接控制，这里不再设置默认值 */
 }
 
 /* 渐变文字 */
@@ -170,8 +202,8 @@
 }
 
 .swap-input-card {
-  @apply bg-slate-900/70 border border-cyan-500/20 rounded-2xl p-5
-         flex items-center justify-between gap-4 hover:border-cyan-400/40
+  @apply bg-slate-900/70 border border-cyan-500/20 rounded-xl sm:rounded-2xl p-3 sm:p-4 md:p-5
+         flex items-center justify-between gap-2 sm:gap-3 md:gap-4 hover:border-cyan-400/40
          transition-all duration-300 flex-wrap md:flex-nowrap backdrop-blur-md;
   box-shadow:
     inset 0 2px 4px 0 rgba(0, 0, 0, 0.3),
@@ -183,7 +215,10 @@
          outline-none placeholder-gray-500;
   /* Allow shrinking inside flex and use responsive font scaling */
   min-width: 0;
-  font-size: clamp(1.125rem, 6vw, 1.75rem);
+  font-size: clamp(1rem, 5vw, 1.75rem);
+  /* 移动端优化 */
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
 }
 
 .swap-input::-webkit-outer-spin-button,
@@ -197,10 +232,11 @@
 }
 
 .token-select {
-  @apply flex items-center gap-2.5 px-4 py-2.5 bg-slate-800/90 rounded-xl flex-shrink-0
+  @apply flex items-center gap-1.5 sm:gap-2 md:gap-2.5 px-2.5 sm:px-3 md:px-4 py-2 sm:py-2.5 bg-slate-800/90 rounded-lg sm:rounded-xl flex-shrink-0
          border border-cyan-500/30 cursor-pointer hover:bg-slate-700/90
-         hover:border-cyan-400/50 transition-all duration-300 backdrop-blur-sm;
+         hover:border-cyan-400/50 transition-all duration-300 backdrop-blur-sm touch-manipulation;
   font-weight: 600;
+  min-height: 36px;
   box-shadow:
     0 2px 8px 0 rgba(0, 0, 0, 0.2),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.05);
@@ -214,10 +250,10 @@
 }
 
 .swap-direction-btn {
-  @apply p-4 rounded-2xl bg-gradient-to-r from-cyan-500 via-cyan-600 to-blue-600
+  @apply p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-cyan-500 via-cyan-600 to-blue-600
          text-white hover:from-cyan-400 hover:via-cyan-500 hover:to-blue-500
          transition-all duration-300 shadow-xl hover:shadow-cyan-500/50
-         hover:scale-110 active:scale-95;
+         hover:scale-110 active:scale-95 touch-manipulation;
   box-shadow:
     0 4px 14px 0 rgba(6, 182, 212, 0.3),
     inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
@@ -299,5 +335,38 @@
 .token-icon-placeholder {
   @apply w-6 h-6 rounded-full bg-gradient-to-r from-cyan-500 to-blue-600
          flex items-center justify-center text-white font-bold text-xs;
+}
+
+/* 自定义scale工具类 */
+.scale-102 {
+  transform: scale(1.02);
+}
+
+.hover\:scale-102:hover {
+  transform: scale(1.02);
+}
+
+/* 顶部横幅下滑动画 */
+@keyframes slide-down {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-down {
+  animation: slide-down 0.4s ease-out;
+}
+
+/* 改进的按钮和交互元素样式 */
+@media (hover: hover) and (pointer: fine) {
+  /* 仅在支持hover的设备上应用悬停效果 */
+  .glass-card:hover {
+    transform: translateY(-1px);
+  }
 }
 

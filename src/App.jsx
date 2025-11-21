@@ -43,14 +43,14 @@ const GlobalToast = () => {
               exit={{ opacity: 0, scale: 0.8 }}
               transition={{ duration: 0.25, ease: 'easeOut' }}
               style={{
-                backgroundColor: 'rgba(30, 41, 59, 0.9)',
-                backdropFilter: 'blur(12px)',
-                borderRadius: '0.5rem',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)',
+                backgroundColor: 'rgba(30, 41, 59, 0.95)',
+                backdropFilter: 'blur(16px)',
+                borderRadius: 'clamp(0.75rem, 2vw, 1rem)',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.3)',
                 maxWidth: '24rem',
-                width: 'clamp(220px, 90vw, 24rem)',
-                padding: '1.25rem 1.5rem',
-                border: isError ? '1px solid rgba(239, 68, 68, 0.5)' : '1px solid rgba(6, 182, 212, 0.5)',
+                width: 'clamp(280px, 88vw, 24rem)',
+                padding: 'clamp(1.25rem, 4vw, 1.75rem)',
+                border: isError ? '2px solid rgba(239, 68, 68, 0.6)' : '2px solid rgba(6, 182, 212, 0.6)',
                 pointerEvents: 'auto'
               }}
             >
@@ -91,20 +91,29 @@ const NetworkPrompt = () => {
   };
 
   return (
-    <div className="fixed inset-0 z-[90] flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/70 backdrop-blur-sm" />
-      <div className="relative z-[95] bg-slate-900/95 border border-yellow-500/40 rounded-xl p-6 w-[480px] max-w-[90vw] shadow-xl shadow-yellow-500/10 text-center">
-        <h4 className="text-xl font-bold mb-3 text-yellow-300">⚠️ {t('app.network_error_title')}</h4>
-        <p className="text-gray-300 mb-5">
-          {t('app.network_error_desc')}<br />
-          {t('app.current_network')}: <span className="text-yellow-300">{getNetworkName()}</span>
-        </p>
-        <button
-          onClick={switchToRequiredNetwork}
-          className="w-full py-3 rounded-lg bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition-colors"
-        >
-          {t('app.switch_to_testnet')}
-        </button>
+    <div className="fixed top-0 left-0 right-0 z-[90] p-3 sm:p-4 animate-slide-down">
+      <div className="max-w-7xl mx-auto">
+        <div className="bg-gradient-to-r from-yellow-500/20 via-orange-500/20 to-yellow-500/20 backdrop-blur-md border border-yellow-500/40 rounded-lg sm:rounded-xl p-3 sm:p-4 shadow-xl shadow-yellow-500/20">
+          <div className="flex items-center justify-between gap-3 sm:gap-4">
+            <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0">
+              <span className="text-xl sm:text-2xl flex-shrink-0">⚠️</span>
+              <div className="flex-1 min-w-0">
+                <h4 className="text-sm sm:text-base font-bold text-yellow-300 mb-0.5 sm:mb-1">
+                  {t('app.network_error_title')}
+                </h4>
+                <p className="text-xs sm:text-sm text-gray-300 leading-tight">
+                  {t('app.current_network')}: <span className="text-yellow-300 font-semibold">{getNetworkName()}</span>
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={switchToRequiredNetwork}
+              className="px-4 sm:px-5 py-2 sm:py-2.5 rounded-lg bg-yellow-400 text-black font-bold hover:bg-yellow-300 active:scale-95 transition-all touch-manipulation whitespace-nowrap text-xs sm:text-sm shadow-lg flex-shrink-0"
+            >
+              {t('app.switch_to_testnet')}
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -189,24 +198,27 @@ const AnimatedRoutes = () => {
 };
 
 function App() {
+  const { chainId } = useWeb3();
+  const isSupportedNetwork = chainId === 97 || chainId === 56;
+  
   return (
-    <div className="min-h-screen text-white p-4 md:p-8 relative pb-24 md:pb-8">
+    <div className="min-h-screen text-white p-2 xs:p-3 sm:p-4 md:p-6 lg:p-8 relative pb-20 sm:pb-24 md:pb-8">
       {/* 粒子背景 */}
       <ParticlesBackground />
 
+      {/* 网络提示横幅 - 移到最顶部 */}
+      <NetworkPrompt />
+
       {/* Shared container for Header and all page content */}
-      <div className="max-w-7xl mx-auto px-3 md:px-4">
+      <div className={`max-w-7xl mx-auto px-3 xs:px-4 sm:px-5 md:px-6 lg:px-8 transition-all duration-300 ${!isSupportedNetwork ? 'pt-20 sm:pt-24' : ''}`}>
         {/* 头部 */}
         <Header />
 
         {/* 桌面导航 */}
         <DesktopNav />
 
-        {/* 网络提示 */}
-        <NetworkPrompt />
-
         {/* 主内容区 */}
-        <main className="mt-8 md:mt-0 relative z-10">
+        <main className="mt-4 sm:mt-6 md:mt-8 relative z-10">
           <AnimatedRoutes />
         </main>
       </div>

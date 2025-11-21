@@ -91,33 +91,33 @@ export default function AdminPage() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto space-y-6">
+    <div className="max-w-6xl mx-auto space-y-4 sm:space-y-6 px-2 sm:px-0">
       {/* 页面标题 */}
-      <div className="glass-card p-6">
-        <div className="flex items-center gap-3">
-          <div className="w-12 h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center">
-            <FaCog className="text-white text-xl" />
+      <div className="glass-card p-4 sm:p-5 md:p-6">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-purple-500 to-pink-600 rounded-full flex items-center justify-center flex-shrink-0">
+            <FaCog className="text-white text-lg sm:text-xl" />
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white">{t('admin.title')}</h2>
-            <p className="text-gray-400 text-sm">{t('admin.subtitle')}</p>
+            <h2 className="text-xl sm:text-2xl font-bold text-white">{t('admin.title')}</h2>
+            <p className="text-gray-400 text-xs sm:text-sm">{t('admin.subtitle')}</p>
           </div>
         </div>
       </div>
 
       {/* 合约状态 */}
-      <div className="glass-card p-6">
-        <h3 className="text-xl font-bold text-white mb-4">{t('admin.contract_status')}</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div className="bg-slate-900/50 p-4 rounded-lg">
-            <p className="text-gray-400 text-sm mb-2">{t('admin.trading_status')}</p>
-            <p className={`text-lg font-bold ${tradingEnabled ? 'text-green-400' : 'text-gray-400'}`}>
+      <div className="glass-card p-4 sm:p-5 md:p-6">
+        <h3 className="text-lg sm:text-xl font-bold text-white mb-3 sm:mb-4">{t('admin.contract_status')}</h3>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+          <div className="bg-slate-900/50 p-3 sm:p-4 rounded-lg">
+            <p className="text-gray-400 text-xs sm:text-sm mb-2">{t('admin.trading_status')}</p>
+            <p className={`text-base sm:text-lg font-bold ${tradingEnabled ? 'text-green-400' : 'text-gray-400'}`}>
               {tradingEnabled ? t('admin.trading_on') : t('admin.trading_off')}
             </p>
           </div>
-          <div className="bg-slate-900/50 p-4 rounded-lg">
-            <p className="text-gray-400 text-sm mb-2">{t('admin.presale_status')}</p>
-            <p className={`text-lg font-bold ${presaleActive ? 'text-cyan-400' : 'text-gray-400'}`}>
+          <div className="bg-slate-900/50 p-3 sm:p-4 rounded-lg">
+            <p className="text-gray-400 text-xs sm:text-sm mb-2">{t('admin.presale_status')}</p>
+            <p className={`text-base sm:text-lg font-bold ${presaleActive ? 'text-cyan-400' : 'text-gray-400'}`}>
               {presaleActive ? t('admin.presale_on') : t('admin.presale_off')}
             </p>
           </div>
@@ -127,7 +127,7 @@ export default function AdminPage() {
           <button
             onClick={enableTrading}
             disabled={loading}
-            className="btn-primary w-full mt-4 flex items-center justify-center gap-2"
+            className="btn-primary w-full mt-3 sm:mt-4 flex items-center justify-center gap-2 touch-manipulation min-h-[44px] text-sm sm:text-base"
           >
             <FaPlay />
             <span>{loading ? t('common.processing') : t('admin.enable_trading')}</span>
@@ -136,53 +136,53 @@ export default function AdminPage() {
       </div>
 
       {/* 税率管理 */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-5 md:gap-6">
         {/* 买入税 */}
-        <div className="glass-card p-6">
-          <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-            <FaPercentage className="text-cyan-400" />
+        <div className="glass-card p-4 sm:p-5 md:p-6">
+          <h3 className="text-base sm:text-lg font-bold text-white mb-3 sm:mb-4 flex items-center gap-2">
+            <FaPercentage className="text-cyan-400 text-base sm:text-lg" />
             {t('admin.buy_tax_title')}
           </h3>
 
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             <div>
-              <label className="block text-gray-400 text-sm mb-2">{t('admin.reward_tax')}</label>
+              <label className="block text-gray-400 text-xs sm:text-sm mb-2">{t('admin.reward_tax')}</label>
               <input
                 type="number"
                 min="0"
                 max="25"
                 value={buyTaxForm.reward}
                 onChange={(e) => setBuyTaxForm({ ...buyTaxForm, reward: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base min-h-[44px]"
               />
             </div>
 
             <div>
-              <label className="block text-gray-400 text-sm mb-2">{t('admin.burn_tax')}</label>
+              <label className="block text-gray-400 text-xs sm:text-sm mb-2">{t('admin.burn_tax')}</label>
               <input
                 type="number"
                 min="0"
                 max="25"
                 value={buyTaxForm.burn}
                 onChange={(e) => setBuyTaxForm({ ...buyTaxForm, burn: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base min-h-[44px]"
               />
             </div>
 
             <div>
-              <label className="block text-gray-400 text-sm mb-2">{t('admin.marketing_tax')}</label>
+              <label className="block text-gray-400 text-xs sm:text-sm mb-2">{t('admin.marketing_tax')}</label>
               <input
                 type="number"
                 min="0"
                 max="25"
                 value={buyTaxForm.marketing}
                 onChange={(e) => setBuyTaxForm({ ...buyTaxForm, marketing: e.target.value })}
-                className="input-field"
+                className="input-field text-sm sm:text-base min-h-[44px]"
               />
             </div>
 
-            <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-3">
-              <p className="text-sm text-gray-300">
+            <div className="bg-cyan-500/10 border border-cyan-500/30 rounded-lg p-2.5 sm:p-3">
+              <p className="text-xs sm:text-sm text-gray-300">
                 {t('admin.total_tax')}: <span className="text-cyan-400 font-bold">
                   {Number(buyTaxForm.reward) + Number(buyTaxForm.burn) + Number(buyTaxForm.marketing)}%
                 </span>
@@ -192,7 +192,7 @@ export default function AdminPage() {
             <button
               onClick={handleUpdateBuyTax}
               disabled={loading}
-              className="btn-primary w-full"
+              className="btn-primary w-full touch-manipulation min-h-[44px] text-sm sm:text-base"
             >
               {loading ? t('common.processing') : t('admin.update_buy_tax')}
             </button>

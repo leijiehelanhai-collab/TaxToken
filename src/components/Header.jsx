@@ -117,22 +117,22 @@ export default function Header() {
 
   return (
     <motion.header
-      className="relative z-20 mb-8"
+      className="relative z-20 mb-4 sm:mb-6 md:mb-8"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      <div className="glass-card p-5 md:p-7">
-        <div className="flex justify-between items-center">
+      <div className="glass-card p-3 xs:p-3.5 sm:p-4 md:p-5 lg:p-6">
+        <div className="flex justify-between items-center gap-2 xs:gap-3 sm:gap-4">
           {/* Logo - top-left */}
           <motion.div
-            className="flex items-center gap-3"
+            className="flex items-center gap-2 sm:gap-3 flex-shrink-0"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             transition={{ duration: 0.2 }}
           >
             <motion.div
-              className="w-11 h-11 bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 rounded-2xl flex items-center justify-center font-bold text-lg shadow-lg shadow-cyan-500/30"
+              className="w-9 h-9 sm:w-10 sm:h-10 md:w-11 md:h-11 bg-gradient-to-br from-cyan-400 via-cyan-500 to-blue-600 rounded-xl sm:rounded-2xl flex items-center justify-center font-bold text-base sm:text-lg shadow-lg shadow-cyan-500/30"
               whileHover={{
                 boxShadow: "0 0 25px rgba(6, 182, 212, 0.6)",
                 rotate: [0, -5, 5, 0]
@@ -142,10 +142,10 @@ export default function Header() {
                 boxShadow: '0 4px 14px rgba(6, 182, 212, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3)'
               }}
             >
-              <span className="tracking-tight">TAX</span>
+              <span className="tracking-tight text-xs sm:text-sm md:text-base">TAX</span>
             </motion.div>
             <motion.span
-              className="hidden sm:block text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
+              className="hidden sm:block text-lg sm:text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
               style={{ letterSpacing: '-0.02em' }}
             >
               Tax Token
@@ -154,19 +154,20 @@ export default function Header() {
 
           {/* Right side: network + language + wallet */}
           <motion.div
-            className="flex items-center gap-2.5"
+            className="flex items-center gap-2 sm:gap-2.5 md:gap-3 flex-shrink-0"
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
           >
-            {/* Network badge - icon only */}
+            {/* Network badge - responsive design */}
             <motion.div
-              className="glass-card px-2.5 h-9 flex items-center gap-1.5 hover:border-cyan-400/30 transition-all"
+              className="glass-card px-2 sm:px-3 h-9 sm:h-10 flex items-center justify-center gap-1.5 sm:gap-2 hover:border-cyan-400/30 transition-all touch-manipulation w-[48px] sm:w-[52px]"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
+              title={chainLabel}
             >
-              <FaGlobe className="text-cyan-400 text-sm" />
-              <span className={`w-2 h-2 rounded-full ${chainDot} shadow-lg`} style={{
+              <FaGlobe className="text-cyan-400 text-sm flex-shrink-0" />
+              <span className={`w-2 h-2 rounded-full ${chainDot} shadow-lg flex-shrink-0`} style={{
                 boxShadow: chainId === 97 ? '0 0 8px rgba(74, 222, 128, 0.6)' : '0 0 8px rgba(251, 191, 36, 0.6)'
               }}></span>
             </motion.div>
@@ -176,12 +177,12 @@ export default function Header() {
                 type="button"
                 ref={btnRef}
                 onClick={() => setLangOpen((v) => !v)}
-                className="glass-card h-9 px-3 flex items-center gap-1.5 text-sm text-white hover:bg-white/5 hover:border-cyan-400/30 transition-all whitespace-nowrap font-medium"
+                className="glass-card h-9 sm:h-10 px-2.5 sm:px-3.5 flex items-center justify-between gap-1.5 text-sm text-white hover:bg-white/5 hover:border-cyan-400/30 transition-all whitespace-nowrap font-medium touch-manipulation w-[68px] sm:w-[76px]"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <span>{languages.find((l) => l.code === i18n.language)?.label || i18n.language}</span>
-                <FaChevronDown className={`text-xs transition-transform duration-300 ${langOpen ? 'rotate-180' : ''}`} />
+                <span className="text-xs sm:text-sm truncate flex-1">{languages.find((l) => l.code === i18n.language)?.label || i18n.language}</span>
+                <FaChevronDown className={`text-[10px] sm:text-xs transition-transform duration-300 flex-shrink-0 ${langOpen ? 'rotate-180' : ''}`} />
               </motion.button>
               {langOpen &&
                 createPortal(
@@ -197,7 +198,7 @@ export default function Header() {
                           changeLang(l.code);
                           setLangOpen(false);
                         }}
-                        className={`w-full text-left px-3 py-2 text-xs rounded-sm whitespace-nowrap ${
+                        className={`w-full text-left px-3 py-2.5 sm:py-2 text-xs sm:text-sm rounded-sm whitespace-nowrap touch-manipulation min-h-[44px] flex items-center ${
                           i18n.language === l.code
                             ? 'bg-cyan-500/20 text-cyan-200'
                             : 'text-white hover:bg-white/5'
@@ -210,27 +211,28 @@ export default function Header() {
                   document.body
                 )}
             </div>
-            {/* Wallet - icon only when connected, connect button when not */}
+            {/* Wallet - improved responsive design with consistent width */}
             {userAddress ? (
               <motion.button
                 onClick={disconnectWallet}
-                className="glass-card h-9 px-3 flex items-center gap-2 text-sm text-white hover:bg-white/5 hover:border-cyan-400/30 transition-all font-medium"
-                title={t('header.disconnect')}
+                className="glass-card h-9 sm:h-10 px-2.5 sm:px-3.5 md:px-4 flex items-center justify-center gap-2 text-sm text-white hover:bg-white/5 hover:border-cyan-400/30 transition-all font-medium touch-manipulation w-[48px] xs:w-[52px] sm:w-auto sm:min-w-[120px] sm:max-w-[180px]"
+                title={`${t('header.disconnect')}: ${userAddress}`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <FaWallet className="text-cyan-400 text-sm" />
-                <span className="hidden md:inline">{shortenAddress(userAddress)}</span>
+                <FaWallet className="text-cyan-400 text-base sm:text-sm flex-shrink-0" />
+                <span className="hidden sm:inline text-xs sm:text-sm truncate">{shortenAddress(userAddress)}</span>
               </motion.button>
             ) : (
               <motion.button
                 onClick={connectWallet}
-                className="btn-primary h-9 flex items-center gap-2 text-sm px-5 whitespace-nowrap min-w-fit"
+                className="btn-primary h-9 sm:h-10 flex items-center justify-center gap-1.5 sm:gap-2 text-sm px-2.5 sm:px-4 md:px-5 touch-manipulation w-[48px] xs:w-[52px] sm:w-auto sm:min-w-[100px] sm:max-w-[140px]"
+                title={t('header.connect')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
               >
-                <FaWallet className="text-sm" />
-                <span>{t('header.connect')}</span>
+                <FaWallet className="text-base sm:text-sm flex-shrink-0" />
+                <span className="hidden sm:inline text-xs sm:text-sm font-semibold whitespace-nowrap">{t('header.connect')}</span>
               </motion.button>
             )}
           </motion.div>
