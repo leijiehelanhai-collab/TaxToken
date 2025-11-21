@@ -44,11 +44,11 @@ export const BSCSCAN_API = {
     url: '/api/bscscan',
     // 免费API key，每秒5次请求限制
     // 建议在 https://bscscan.com/myapikey 注册自己的API key
-    apiKey: 'SMXE1PTV36S1NU1DEH3MHMMA1EVE5ICFCG'
+    apiKey: ''
   },
   56: {
     // 使用 Vite 代理路径以解决 CORS 问题
     url: '/api/bscscan-mainnet',
-    apiKey: 'SMXE1PTV36S1NU1DEH3MHMMA1EVE5ICFCG'
+    apiKey: ''
   }
 };
