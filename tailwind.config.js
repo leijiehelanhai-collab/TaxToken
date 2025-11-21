@@ -15,9 +15,39 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ['Inter', 'SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'sans-serif'],
-        display: ['Inter', 'SF Pro Display', 'system-ui', 'sans-serif'],
-        mono: ['JetBrains Mono', 'Fira Code', 'Consolas', 'monospace'],
+        sans: ['Inter var', 'Inter', 'SF Pro Display', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'sans-serif'],
+        display: ['Poppins', 'Inter', 'SF Pro Display', 'system-ui', 'sans-serif'],
+        mono: ['JetBrains Mono', 'Fira Code', 'SF Mono', 'Consolas', 'monospace'],
+        heading: ['Space Grotesk', 'Inter', 'system-ui', 'sans-serif'],
+      },
+      fontSize: {
+        'xs': ['0.75rem', { lineHeight: '1.5', letterSpacing: '0.01em' }],
+        'sm': ['0.875rem', { lineHeight: '1.5', letterSpacing: '0.005em' }],
+        'base': ['1rem', { lineHeight: '1.6', letterSpacing: '0em' }],
+        'lg': ['1.125rem', { lineHeight: '1.6', letterSpacing: '-0.01em' }],
+        'xl': ['1.25rem', { lineHeight: '1.5', letterSpacing: '-0.015em' }],
+        '2xl': ['1.5rem', { lineHeight: '1.4', letterSpacing: '-0.02em' }],
+        '3xl': ['1.875rem', { lineHeight: '1.3', letterSpacing: '-0.025em' }],
+        '4xl': ['2.25rem', { lineHeight: '1.2', letterSpacing: '-0.03em' }],
+        '5xl': ['3rem', { lineHeight: '1.1', letterSpacing: '-0.035em' }],
+        '6xl': ['3.75rem', { lineHeight: '1', letterSpacing: '-0.04em' }],
+        '7xl': ['4.5rem', { lineHeight: '1', letterSpacing: '-0.045em' }],
+      },
+      fontWeight: {
+        'light': '300',
+        'normal': '400',
+        'medium': '500',
+        'semibold': '600',
+        'bold': '700',
+        'extrabold': '800',
+        'black': '900',
+      },
+      lineHeight: {
+        'tight': '1.2',
+        'snug': '1.375',
+        'normal': '1.5',
+        'relaxed': '1.625',
+        'loose': '1.75',
       },
       colors: {
         primary: {
@@ -45,6 +75,25 @@ export default {
           900: '#0f172a',
           950: '#020617',
         },
+        // 自定义主题文字颜色
+        text: {
+          primary: '#e0f5ff',      // 主文字 - 青色调白色
+          secondary: '#b8dff5',    // 次要文字 - 柔和青色
+          tertiary: '#8ab4d5',     // 三级文字 - 中青蓝
+          muted: '#6b8ba8',        // 弱化文字 - 深青灰
+          accent: '#67e8f9',       // 强调文字 - 明亮青色
+          highlight: '#06b6d4',    // 高光文字 - 主题青色
+          glass: 'rgba(224, 245, 255, 0.9)', // 玻璃效果文字
+          glow: '#a5f3fc',         // 发光效果 - 浅青色
+        },
+      },
+      textColor: {
+        'primary': '#e0f5ff',
+        'secondary': '#b8dff5',
+        'tertiary': '#8ab4d5',
+        'muted': '#6b8ba8',
+        'accent': '#67e8f9',
+        'highlight': '#06b6d4',
       },
       animation: {
         'gradient': 'gradient 8s linear infinite',
